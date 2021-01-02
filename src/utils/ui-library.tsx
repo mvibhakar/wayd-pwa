@@ -4,10 +4,11 @@ import { textGrey, darkBlue, lightBlue } from "./index";
 
 export const AppHeader = styled.div`
     font-family: "DM Sans", sans-serif;
-    font-size: 22px;
-    letter-spacing: 20%;
+    font-size: 20px;
+    letter-spacing: 6px;
     text-transform: uppercase;
     color: ${textGrey};
+    margin-right: -6px;
 `;
 
 export const ContentHeader = styled.div`
