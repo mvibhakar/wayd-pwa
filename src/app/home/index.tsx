@@ -1,7 +1,7 @@
 import React from "react";
 import "react-calendar/dist/Calendar.css";
 import { S3Key } from "../../utils";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 // components
 import { Header } from "../_shared/Header";
@@ -38,7 +38,9 @@ export default () => {
                     prevLabel={getArrowImage("left")}
                     onClickDay={(value) => onDayClick(value)}
                 />
-                <MenuButton title="lists" image="list-grey" divider={true} />
+                <Link to="/lists">
+                    <MenuButton title="lists" image="list-grey" divider={true} />
+                </Link>
                 <MenuButton title="notes" image="notes-grey" divider={true} />
                 <MenuButton title="habits" image="streak-grey" divider={false} />
             </Content>

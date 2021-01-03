@@ -5,16 +5,17 @@ import { S3Key } from "../../utils";
 // components
 import { ContentText } from "../../utils/ui-library";
 import { Header } from "../_shared/Header";
-import { AppContainer, Content, FAB } from "../_shared/styled";
 import {
+    AppContainer,
+    Content,
+    FAB,
     Card,
     CardHeader,
     ContentItemContainer,
     ListItemIcon,
     ListItemText,
-    TaskTextContainer,
-    TaskTimeContainer,
-} from "./styled";
+} from "../_shared/styled";
+import { TaskTextContainer, TaskTimeContainer } from "./styled";
 var moment = require("moment");
 
 export const Day = () => {
