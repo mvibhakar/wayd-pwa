@@ -6,6 +6,7 @@ import SignIn from "./auth/SignIn";
 import Home from "./home";
 import { Day } from "./day";
 import { Lists } from "./not-day/Lists";
+import { Notes } from "./not-day/Notes";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/sign-in" exact component={() => <SignIn />} />
                     <Route path="/day" component={() => <Day />} />
                     <Route path="/lists" component={() => <Lists />} />
+                    <Route path="/notes" component={() => <Notes />} />
                 </Switch>
             </div>
         </Router>

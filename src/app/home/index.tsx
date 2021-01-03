@@ -41,7 +41,9 @@ export default () => {
                 <Link to="/lists">
                     <MenuButton title="lists" image="list-grey" divider={true} />
                 </Link>
-                <MenuButton title="notes" image="notes-grey" divider={true} />
+                <Link to="/notes">
+                    <MenuButton title="notes" image="notes-grey" divider={true} />
+                </Link>
                 <MenuButton title="habits" image="streak-grey" divider={false} />
             </Content>
             <FAB>
