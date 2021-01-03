@@ -1,7 +1,7 @@
 import React from "react";
-import { lightBeige } from "../utils";
-import { EmailInput, PasswordInput, AuthButton } from "../utils/ui-library";
-import { AuthInputContainer } from "./styled";
+import { lightBeige } from "../../utils";
+import { EmailInput, PasswordInput, AuthButton } from "../../utils/ui-library";
+import { AuthInputContainer } from "../styled";
 
 export default () => {
     return (

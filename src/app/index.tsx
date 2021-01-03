@@ -2,8 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // components
-import SignIn from "./SignIn";
+import SignIn from "./auth/SignIn";
 import Home from "./home";
+import { Day } from "./day";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                 <Switch>
                     <Route path="/" exact component={() => <Home />} />
                     <Route path="/sign-in" exact component={() => <SignIn />} />
+                    <Route path="/day" component={() => <Day />} />
                 </Switch>
             </div>
         </Router>

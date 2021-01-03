@@ -1,9 +1,10 @@
 import React from "react";
-import { S3Key } from "../../utils";
+import { lightBeige, S3Key } from "../../utils";
 import { AppHeader } from "../../utils/ui-library";
 import styled from "styled-components";
 
 interface HeaderProps {
+    title: string;
     leftSideIcon?: string | undefined;
     leftSideIconAction?: () => void;
     rightSideLeftIcon?: string | undefined;
@@ -13,6 +14,7 @@ interface HeaderProps {
 }
 
 export const Header = ({
+    title,
     leftSideIcon,
     leftSideIconAction,
     rightSideLeftIcon,
@@ -28,7 +30,7 @@ export const Header = ({
                 </HeaderIconContainer>
                 <HeaderIconContainer />
             </div>
-            <AppHeader>WAYD</AppHeader>
+            <AppHeader>{title}</AppHeader>
             <div style={{ display: "flex", alignItems: "center" }}>
                 <HeaderIconContainer onClick={rightSideLeftIconAction}>
                     {rightSideLeftIcon && (
@@ -46,12 +48,17 @@ export const Header = ({
 };
 
 const HeaderContainer = styled.div`
+    background: ${lightBeige};
     width: 100vw;
     height: 56px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 5;
 `;
 
 const HeaderIconContainer = styled.div`

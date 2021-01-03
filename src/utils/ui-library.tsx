@@ -15,15 +15,17 @@ export const ContentHeader = styled.div`
     font-family: "DM Sans", sans-serif;
     font-size: 12px;
     font-weight: bold;
-    letter-spacing: 35%;
+    letter-spacing: 4.5px;
     text-transform: uppercase;
     color: ${textGrey};
+    text-align: center;
+    margin-right: -4.5px;
 `;
 
 export const ContentText = styled.div`
     font-family: "DM Sans", sans-serif;
-    font-size: 15px;
-    letter-spacing: 10%;
+    font-size: 13px;
+    letter-spacing: 1px;
     color: ${textGrey};
 `;
 
@@ -32,9 +34,10 @@ export const TimeText = styled.div`
     font-size: 12px;
     font-weight: bold;
     font-style: italic;
-    letter-spacing: 10%;
+    letter-spacing: 1px;
     text-transform: lowercase;
     color: ${darkBlue};
+    margin-top: 1px;
 `;
 
 export const EmailInput = styled(Input)`
