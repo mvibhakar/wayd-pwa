@@ -38,6 +38,13 @@ export const AddList = () => {
         updateId(id + 1);
     };
 
+    const changePreviousValue = (id: number, value: string) => {
+        const newObject = [{ id: id, value: value }];
+        const listItemsCopy = [...listItems];
+        const newListItems = listItemsCopy.map((obj) => newObject.find((o) => o.id === obj.id) || obj);
+        updateListItems(newListItems);
+    };
+
     return (
         <AppContainer>
             <Header
@@ -56,9 +63,11 @@ export const AddList = () => {
                         <ContentItemContainer>
                             <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
                             <TextInputWithBottomBorder
+                                key={listItem.id}
                                 placeholder="Enter list item"
-                                value={listItem.value}
+                                defaultValue={listItem.value}
                                 bordered={false}
+                                onChange={(e) => changePreviousValue(listItem.id, e.target.value)}
                             />
                         </ContentItemContainer>
                     </Section>
