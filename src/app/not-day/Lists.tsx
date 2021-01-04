@@ -22,6 +22,10 @@ export const Lists = () => {
         history.push("/");
     };
 
+    const getFABAction = () => {
+        history.push("/add-list");
+    };
+
     return (
         <AppContainer>
             <Header title="my lists" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
@@ -62,7 +66,7 @@ export const Lists = () => {
                 </Card>
             </Content>
             <FAB>
-                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" />
+                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
             </FAB>
         </AppContainer>
     );

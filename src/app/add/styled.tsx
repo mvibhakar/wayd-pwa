@@ -4,7 +4,7 @@ import { darkOrange, lightOrange, textGrey } from "../../utils";
 
 export const RadioGroup = styled(Radio.Group)`
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 
     .ant-radio-button-wrapper-checked {
         background: transparent !important;
@@ -83,5 +83,5 @@ export const Toggle = styled(Switch)`
 `;
 
 export const FormSection = styled.div`
-    margin-top: 30px;
+    margin-top: 20px;
 `;
