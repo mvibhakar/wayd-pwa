@@ -9,7 +9,7 @@ export const EventForm = () => {
     const [toggleValue, updateToggleValue] = useState<boolean>(false);
     const dateFormat = "MMMM Do, YYYY";
     const timeFormat = "h:mm A";
-    const remainder = 60 - (moment().minute() % 60);
+    const remainder = 30 - (moment().minute() % 30);
     const defaultStartDateTime = moment().add(remainder, "minutes");
     const defaultEndDateTime = moment().add(remainder + 60, "minutes");
     const [datepickerDate, updateDatepickerDate] = useState<Moment | null>(defaultStartDateTime);

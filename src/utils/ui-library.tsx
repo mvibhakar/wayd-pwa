@@ -61,7 +61,7 @@ export const ExpandingTextAreaWithBottomBorder = styled(TextArea)`
     color: ${textGrey};
     width: 100%;
     border-radius: 0px;
-    border-bottom: 0.5px solid ${textGrey} !important;
+    border-bottom: 0.5px solid rgba(82, 82, 82, 0.4) !important;
     padding-left: 0px !important;
     ::placeholder {
         color: ${textGrey} !important;
@@ -72,7 +72,7 @@ export const ExpandingTextAreaWithBottomBorder = styled(TextArea)`
 export const TextInputWithBottomBorder = styled(TextInput)`
     width: 100%;
     border-radius: 0px;
-    border-bottom: 0.5px solid ${textGrey} !important;
+    border-bottom: 0.5px solid rgba(82, 82, 82, 0.4) !important;
     padding-left: 0px !important;
 `;
 

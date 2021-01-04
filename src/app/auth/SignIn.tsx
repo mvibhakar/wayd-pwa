@@ -1,9 +1,16 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { lightBeige } from "../../utils";
 import { TextInput, PasswordInput, AuthButton } from "../../utils/ui-library";
 import { AuthInputContainer } from "../styled";
 
 export default () => {
+    const history = useHistory();
+
+    const submit = () => {
+        history.push("/");
+    };
+
     return (
         <div
             style={{
@@ -37,7 +44,7 @@ export default () => {
                 />
                 <PasswordInput placeholder="Password" bordered={false} />
             </AuthInputContainer>
-            <AuthButton>SIGN IN</AuthButton>
+            <AuthButton onClick={submit}>SIGN IN</AuthButton>
         </div>
     );
 };
