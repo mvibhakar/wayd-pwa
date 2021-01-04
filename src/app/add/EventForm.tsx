@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Moment } from "moment";
 import { ContentHeader, ContentText, TextInputWithBottomBorder } from "../../utils/ui-library";
-import { DatePicker, TimePicker, Toggle } from "./styled";
+import { DatePicker, FormSection, TimePicker, Toggle } from "./styled";
+import { SpaceBetweenFlexContainer } from "../_shared/styled";
 var moment = require("moment-timezone");
 
 export const EventForm = () => {
@@ -15,7 +16,6 @@ export const EventForm = () => {
     const [startTimepickerTime, updateStartTimepickerTime] = useState<Moment | null>(defaultStartDateTime);
     const [endTimepickerTime, updateEndTimepickerTime] = useState<Moment | null>(defaultEndDateTime);
     const currentDateForIsBefore = moment().format("YYYY-MM-DD");
-    const currentDateForIsAfter = moment().add(24, "hours").format("YYYY-MM-DD");
 
     const changeStartTime = (value: Moment | null) => {
         if (value) {
@@ -26,62 +26,61 @@ export const EventForm = () => {
 
     return (
         <>
-            <div style={{ marginTop: "40px" }}>
-                <TextInputWithBottomBorder placeholder="Enter event title" bordered={false} />
-            </div>
-            <div
-                style={{
-                    marginTop: "30px",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}
-            >
-                <ContentText>All-day</ContentText>
-                <Toggle checked={toggleValue} onClick={() => updateToggleValue(!toggleValue)} />
-            </div>
-            <div style={{ marginTop: "30px" }}>
-                <ContentHeader>start time</ContentHeader>
-                <div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
-                    <DatePicker
-                        bordered={false}
-                        format={dateFormat}
-                        value={datepickerDate || undefined}
-                        onChange={(value) => updateDatepickerDate(value)}
-                        // disabledDate={(d) => !d || d.isAfter(currentDateForDisabling)}
-                        inputReadOnly={true}
-                    />
-                    <TimePicker
-                        bordered={false}
-                        format={timeFormat}
-                        value={startTimepickerTime || undefined}
-                        onChange={(value) => changeStartTime(value)}
-                        inputReadOnly={true}
-                        minuteStep={15}
-                    />
-                </div>
-            </div>
-            <div style={{ marginTop: "30px" }}>
-                <ContentHeader>end time</ContentHeader>
-                <div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
-                    <DatePicker
-                        bordered={false}
-                        format={dateFormat}
-                        value={datepickerDate || undefined}
-                        onChange={(value) => updateDatepickerDate(value)}
-                        disabledDate={(d) => !d || d.isBefore(currentDateForIsBefore)}
-                        inputReadOnly={true}
-                    />
-                    <TimePicker
-                        bordered={false}
-                        format={timeFormat}
-                        value={endTimepickerTime || undefined}
-                        onChange={(value) => updateEndTimepickerTime(value)}
-                        inputReadOnly={true}
-                        minuteStep={15}
-                    />
-                </div>
-            </div>
+            <FormSection>
+                <TextInputWithBottomBorder placeholder="Enter event" bordered={false} />
+            </FormSection>
+            <FormSection>
+                <SpaceBetweenFlexContainer>
+                    <ContentText>All-day</ContentText>
+                    <Toggle checked={toggleValue} onClick={() => updateToggleValue(!toggleValue)} />
+                </SpaceBetweenFlexContainer>
+            </FormSection>
+            {toggleValue === false && (
+                <>
+                    <FormSection>
+                        <ContentHeader>start time</ContentHeader>
+                        <SpaceBetweenFlexContainer>
+                            <DatePicker
+                                bordered={false}
+                                format={dateFormat}
+                                value={datepickerDate || undefined}
+                                onChange={(value) => updateDatepickerDate(value)}
+                                disabledDate={(d) => !d || d.isBefore(currentDateForIsBefore)}
+                                inputReadOnly={true}
+                            />
+                            <TimePicker
+                                bordered={false}
+                                format={timeFormat}
+                                value={startTimepickerTime || undefined}
+                                onChange={(value) => changeStartTime(value)}
+                                inputReadOnly={true}
+                                minuteStep={15}
+                            />
+                        </SpaceBetweenFlexContainer>
+                    </FormSection>
+                    <FormSection>
+                        <ContentHeader>end time</ContentHeader>
+                        <SpaceBetweenFlexContainer>
+                            <DatePicker
+                                bordered={false}
+                                format={dateFormat}
+                                value={datepickerDate || undefined}
+                                onChange={(value) => updateDatepickerDate(value)}
+                                disabledDate={(d) => !d || d.isBefore(currentDateForIsBefore)}
+                                inputReadOnly={true}
+                            />
+                            <TimePicker
+                                bordered={false}
+                                format={timeFormat}
+                                value={endTimepickerTime || undefined}
+                                onChange={(value) => updateEndTimepickerTime(value)}
+                                inputReadOnly={true}
+                                minuteStep={15}
+                            />
+                        </SpaceBetweenFlexContainer>
+                    </FormSection>
+                </>
+            )}
         </>
     );
 };

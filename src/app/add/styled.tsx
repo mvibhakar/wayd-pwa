@@ -4,6 +4,7 @@ import { darkOrange, lightOrange, textGrey } from "../../utils";
 
 export const RadioGroup = styled(Radio.Group)`
     width: 100%;
+    margin-bottom: 10px;
 
     .ant-radio-button-wrapper-checked {
         background: transparent !important;
@@ -42,7 +43,7 @@ export const RadioButton = styled(Radio.Button)`
 `;
 
 export const DatePicker = styled(AntDatePicker)`
-width: 50% !important;
+    width: 70% !important;
     color: ${textGrey};
     font-size; 14px;
     .ant-picker-input > input {
@@ -59,7 +60,7 @@ width: 50% !important;
 `;
 
 export const TimePicker = styled(AntTimePicker)`
-width: 50% !important;
+    width: 30% !important;
     color: ${textGrey};
     font-size; 14px;
     .ant-picker-input > input {
@@ -79,4 +80,8 @@ export const Toggle = styled(Switch)`
     &.ant-switch.ant-switch-checked {
         background-color: ${lightOrange} !important;
     }
+`;
+
+export const FormSection = styled.div`
+    margin-top: 30px;
 `;

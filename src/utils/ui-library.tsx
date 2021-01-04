@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Input } from "antd";
 import { textGrey, darkBlue, lightBlue } from "./index";
+const { TextArea } = Input;
 
 export const AppHeader = styled.div`
     font-family: "DM Sans", sans-serif;
@@ -46,6 +47,22 @@ export const TextInput = styled(Input)`
     letter-spacing: 1px;
     width: 230px;
     color: ${textGrey};
+    ::placeholder {
+        color: ${textGrey} !important;
+        letter-spacing: 1px;
+    }
+`;
+
+export const ExpandingTextAreaWithBottomBorder = styled(TextArea)`
+    font-family: "DM Sans", sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    width: 230px;
+    color: ${textGrey};
+    width: 100%;
+    border-radius: 0px;
+    border-bottom: 0.5px solid ${textGrey} !important;
+    padding-left: 0px !important;
     ::placeholder {
         color: ${textGrey} !important;
         letter-spacing: 1px;

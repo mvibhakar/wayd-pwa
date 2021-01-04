@@ -67,3 +67,10 @@ export const ListItemIcon = styled.img`
     height: 22px;
     margin-right: 15px;
 `;
+
+export const SpaceBetweenFlexContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+`;

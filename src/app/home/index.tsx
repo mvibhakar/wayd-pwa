@@ -34,14 +34,16 @@ export default () => {
         <AppContainer>
             <Header title="wayd" leftSideIcon="user-grey" />
             <Content>
-                <Calendar
-                    next2Label={null}
-                    prev2Label={null}
-                    minDetail="month"
-                    nextLabel={getArrowImage("right")}
-                    prevLabel={getArrowImage("left")}
-                    onClickDay={(value) => onDayClick(value)}
-                />
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <Calendar
+                        next2Label={null}
+                        prev2Label={null}
+                        minDetail="month"
+                        nextLabel={getArrowImage("right")}
+                        prevLabel={getArrowImage("left")}
+                        onClickDay={(value) => onDayClick(value)}
+                    />
+                </div>
                 <Link to="/lists">
                     <MenuButton title="lists" image="list-grey" divider={true} />
                 </Link>
