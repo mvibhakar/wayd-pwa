@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ExpandingTextAreaWithBottomBorder } from "../../utils/ui-library";
 import { Moment } from "moment";
-import { ContentHeader, ContentText, TextInputWithBottomBorder } from "../../utils/ui-library";
-import { DatePicker, FormSection, TimePicker, Toggle } from "./styled";
+import { ContentHeader } from "../../utils/ui-library";
+import { DatePicker, FormSection } from "./styled";
 var moment = require("moment-timezone");
 
 export const ThoughtForm = () => {
