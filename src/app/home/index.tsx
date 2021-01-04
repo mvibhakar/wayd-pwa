@@ -18,6 +18,10 @@ export default () => {
         history.push("/day/" + momentDate);
     };
 
+    const getFABAction = () => {
+        history.push("/add-day-item");
+    };
+
     const getArrowImage = (side: string) => {
         if (side === "left") {
             return <img src={S3Key + "left-arrow-grey.png"} alt="left-arrow" width="18px" />;
@@ -47,7 +51,7 @@ export default () => {
                 <MenuButton title="habits" image="streak-grey" divider={false} />
             </Content>
             <FAB>
-                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" />
+                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
             </FAB>
         </AppContainer>
     );

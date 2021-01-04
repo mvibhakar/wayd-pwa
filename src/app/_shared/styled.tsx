@@ -41,7 +41,9 @@ export const Card = styled.div`
     margin-bottom: 20px;
 `;
 
-export const CardHeader = styled(ContentHeader)``;
+export const CardHeader = styled(ContentHeader)`
+    text-align: center;
+`;
 
 interface ContentItemContainerProps {
     event?: boolean;

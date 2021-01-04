@@ -1,6 +1,6 @@
 import React from "react";
 import { lightBeige } from "../../utils";
-import { EmailInput, PasswordInput, AuthButton } from "../../utils/ui-library";
+import { TextInput, PasswordInput, AuthButton } from "../../utils/ui-library";
 import { AuthInputContainer } from "../styled";
 
 export default () => {
@@ -27,7 +27,7 @@ export default () => {
                     alt="email"
                     style={{ width: "20px" }}
                 />
-                <EmailInput placeholder="Email" bordered={false} />
+                <TextInput placeholder="Email" bordered={false} />
             </AuthInputContainer>
             <AuthInputContainer>
                 <img

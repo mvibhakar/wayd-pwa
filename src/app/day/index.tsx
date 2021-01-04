@@ -40,6 +40,10 @@ export const Day = () => {
         }
     };
 
+    const getFABAction = () => {
+        history.push("/add-day-item");
+    };
+
     const goToPreviousDay = () => {
         const previousDay = formattedDate.subtract(1, "days").format("MM-DD-YYYY");
         history.push("/day/" + previousDay);
@@ -114,7 +118,7 @@ export const Day = () => {
                 </Card>
             </Content>
             <FAB>
-                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" />
+                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
             </FAB>
         </AppContainer>
     );

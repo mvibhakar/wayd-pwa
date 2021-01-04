@@ -6,6 +6,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 19.5px;
+    --antd-wave-shadow-color: transparent !important;
 }
 
 code {

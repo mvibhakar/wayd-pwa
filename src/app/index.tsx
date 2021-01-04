@@ -7,6 +7,7 @@ import Home from "./home";
 import { Day } from "./day";
 import { Lists } from "./not-day/Lists";
 import { Notes } from "./not-day/Notes";
+import { AddDayItem } from "./add/AddDayItem";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/day" component={() => <Day />} />
                     <Route path="/lists" component={() => <Lists />} />
                     <Route path="/notes" component={() => <Notes />} />
+                    <Route path="/add-day-item" component={() => <AddDayItem />} />
                 </Switch>
             </div>
         </Router>

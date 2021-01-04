@@ -18,13 +18,13 @@ export const ContentHeader = styled.div`
     letter-spacing: 4.5px;
     text-transform: uppercase;
     color: ${textGrey};
-    text-align: center;
+
     margin-right: -4.5px;
 `;
 
 export const ContentText = styled.div`
     font-family: "DM Sans", sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 1px;
     color: ${textGrey};
 `;
@@ -40,7 +40,7 @@ export const TimeText = styled.div`
     margin-top: 1px;
 `;
 
-export const EmailInput = styled(Input)`
+export const TextInput = styled(Input)`
     font-family: "DM Sans", sans-serif;
     font-size: 15px;
     letter-spacing: 1px;
@@ -50,6 +50,13 @@ export const EmailInput = styled(Input)`
         color: ${textGrey} !important;
         letter-spacing: 1px;
     }
+`;
+
+export const TextInputWithBottomBorder = styled(TextInput)`
+    width: 100%;
+    border-radius: 0px;
+    border-bottom: 0.5px solid ${textGrey} !important;
+    padding-left: 0px !important;
 `;
 
 export const PasswordInput = styled(Input.Password)`
