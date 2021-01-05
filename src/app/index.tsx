@@ -9,6 +9,7 @@ import { Lists } from "./not-day/Lists";
 import { Notes } from "./not-day/Notes";
 import { AddDayItem } from "./add/AddDayItem";
 import { AddList } from "./add/AddList";
+import { AddNote } from "./add/AddNote";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/notes" component={() => <Notes />} />
                     <Route path="/add-day-item" component={() => <AddDayItem />} />
                     <Route path="/add-list" component={() => <AddList />} />
+                    <Route path="/add-note" component={() => <AddNote />} />
                 </Switch>
             </div>
         </Router>

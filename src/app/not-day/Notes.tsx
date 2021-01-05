@@ -14,6 +14,10 @@ export const Notes = () => {
         history.push("/");
     };
 
+    const getFABAction = () => {
+        history.push("/add-note");
+    };
+
     return (
         <AppContainer>
             <Header title="my notes" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
@@ -44,7 +48,7 @@ export const Notes = () => {
                 </Card>
             </Content>
             <FAB>
-                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" />
+                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
             </FAB>
         </AppContainer>
     );

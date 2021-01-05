@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import { S3Key } from "../../utils";
 import { TextInputWithBottomBorder } from "../../utils/ui-library";
 import { Header } from "../_shared/Header";
 import { AppContainer, Content, ContentItemContainer, ListItemIcon } from "../_shared/styled";
+import { FormSection } from "./styled";
 
 interface ListItem {
     id: number;
@@ -54,12 +54,12 @@ export const AddList = () => {
                 rightSideRightIcon="check-grey"
                 rightSideRightIconAction={submit}
             />
-            <Content style={{ padding: "0 40px" }}>
-                <Section>
+            <Content style={{ padding: "0 40px 40px" }}>
+                <FormSection>
                     <TextInputWithBottomBorder placeholder="Enter list title" bordered={false} />
-                </Section>
+                </FormSection>
                 {listItems.map((listItem) => (
-                    <Section key={listItem.id}>
+                    <FormSection key={listItem.id}>
                         <ContentItemContainer>
                             <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
                             <TextInputWithBottomBorder
@@ -70,9 +70,9 @@ export const AddList = () => {
                                 onChange={(e) => changePreviousValue(listItem.id, e.target.value)}
                             />
                         </ContentItemContainer>
-                    </Section>
+                    </FormSection>
                 ))}
-                <Section>
+                <FormSection>
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
                         <TextInputWithBottomBorder
@@ -83,17 +83,13 @@ export const AddList = () => {
                             onPressEnter={createNewListItem}
                         />
                     </ContentItemContainer>
-                </Section>
-                <Section>
+                </FormSection>
+                <FormSection>
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "plus-grey.png"} alt="plus" onClick={createNewListItem} />
                     </ContentItemContainer>
-                </Section>
+                </FormSection>
             </Content>
         </AppContainer>
     );
 };
-
-const Section = styled.div`
-    margin-top: 20px;
-`;
