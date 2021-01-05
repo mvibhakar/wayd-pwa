@@ -19,7 +19,6 @@ export const ContentHeader = styled.div`
     letter-spacing: 4.5px;
     text-transform: uppercase;
     color: ${textGrey};
-
     margin-right: -4.5px;
 `;
 

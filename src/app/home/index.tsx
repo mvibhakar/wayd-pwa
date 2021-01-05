@@ -50,7 +50,9 @@ export default () => {
                 <Link to="/notes">
                     <MenuButton title="notes" image="notes-grey" divider={true} />
                 </Link>
-                <MenuButton title="habits" image="streak-grey" divider={false} />
+                <Link to="/habits">
+                    <MenuButton title="habits" image="streak-grey" divider={false} />
+                </Link>
             </Content>
             <FAB>
                 <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />

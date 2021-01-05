@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ContentHeader, ContentText, TimeText } from "../../utils/ui-library";
+import { ContentText, TimeText } from "../../utils/ui-library";
 
 export const TaskTimeContainer = styled(TimeText)`
     width: 48%;

@@ -14,6 +14,8 @@ import {
     ContentItemContainer,
     ListItemIcon,
     ListItemText,
+    HabitListItemText,
+    StreakContainer,
 } from "../_shared/styled";
 import { TaskTextContainer, TaskTimeContainer } from "./styled";
 var moment = require("moment");
@@ -87,7 +89,9 @@ export const Day = () => {
                     <CardHeader>to-do</CardHeader>
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
-                        <ListItemText>quis ligula ultricies</ListItemText>
+                        <ListItemText>
+                            esti bulum ornare, nisl nec malesuada hendrerit, erat elit fringilla
+                        </ListItemText>
                     </ContentItemContainer>
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
@@ -98,11 +102,33 @@ export const Day = () => {
                     <CardHeader>habits</CardHeader>
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "round-checked-orange.png"} alt="checked" />
-                        <ListItemText>libero</ListItemText>
+                        <HabitListItemText>
+                            <div>libero</div>
+                            <StreakContainer streak={true}>
+                                <div>7</div>
+                                <img src={S3Key + "streak-orange.png"} alt="streak" width="20px" />
+                            </StreakContainer>
+                        </HabitListItemText>
                     </ContentItemContainer>
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "round-unchecked-grey.png"} alt="unchecked" />
-                        <ListItemText>erat vitae mattis</ListItemText>
+                        <HabitListItemText>
+                            <div>erat vitae mattis erat vitae mattis erat vitae</div>
+                            <StreakContainer streak={true}>
+                                <div>13</div>
+                                <img src={S3Key + "streak-orange.png"} alt="streak" width="20px" />
+                            </StreakContainer>
+                        </HabitListItemText>
+                    </ContentItemContainer>
+                    <ContentItemContainer>
+                        <ListItemIcon src={S3Key + "round-unchecked-grey.png"} alt="unchecked" />
+                        <HabitListItemText>
+                            <div>vitae efficitur</div>
+                            <StreakContainer streak={false}>
+                                <div>0</div>
+                                <img src={S3Key + "streak-grey.png"} alt="streak" width="20px" />
+                            </StreakContainer>
+                        </HabitListItemText>
                     </ContentItemContainer>
                 </Card>
                 <Card style={{ marginBottom: "0px" }}>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { darkOrange } from "../../utils";
+import { darkOrange, textGrey } from "../../utils";
 import { ContentHeader, ContentText } from "../../utils/ui-library";
 
 export const AppContainer = styled.div`
@@ -52,7 +52,7 @@ interface ContentItemContainerProps {
 export const ContentItemContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    align-items: ${(props: ContentItemContainerProps) => (props.event ? "flex-start" : "center")};
+    align-items: flex-start;
     margin-top: ${(props: ContentItemContainerProps) => (props.event ? "5px" : "10px")};
 `;
 
@@ -73,4 +73,24 @@ export const SpaceBetweenFlexContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
+`;
+
+interface StreakContainerProps {
+    streak: boolean;
+}
+
+export const StreakContainer = styled(ContentHeader)`
+    display: flex;
+    align-items: center;
+    color: ${(props: StreakContainerProps) => (props.streak ? darkOrange : textGrey)};
+    font-size: 15px;
+    padding-left: 10px;
+    margin-right: 1px;
+    letter-spacing: 1px;
+`;
+
+export const HabitListItemText = styled(ListItemText)`
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 `;

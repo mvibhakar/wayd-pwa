@@ -34,7 +34,7 @@ export const Lists = () => {
                     <CardHeader>jfkrflmink</CardHeader>
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
-                        <ListItemText>quis ligula ultricies</ListItemText>
+                        <ListItemText>quis ligula ultricies quis ligula ultricies quis ligula ultricies</ListItemText>
                     </ContentItemContainer>
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
