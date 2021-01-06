@@ -23,7 +23,7 @@ export const Habits = () => {
     };
 
     const getFABAction = () => {
-        history.push("/add-note");
+        history.push("/add-habit");
     };
 
     return (

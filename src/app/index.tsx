@@ -11,6 +11,7 @@ import { AddDayItem } from "./add/AddDayItem";
 import { AddList } from "./add/AddList";
 import { AddNote } from "./add/AddNote";
 import { Habits } from "./not-day/Habits";
+import { AddHabit } from "./add/AddHabit";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                     <Route path="/add-day-item" component={() => <AddDayItem />} />
                     <Route path="/add-list" component={() => <AddList />} />
                     <Route path="/add-note" component={() => <AddNote />} />
+                    <Route path="/add-habit" component={() => <AddHabit />} />
                 </Switch>
             </div>
         </Router>
