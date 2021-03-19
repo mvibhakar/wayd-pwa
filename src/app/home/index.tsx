@@ -30,6 +30,10 @@ export default () => {
         }
     };
 
+    document.addEventListener("swiped-left", function (e: any) {
+        console.log(e.target); // the element that was swiped
+    });
+
     return (
         <AppContainer>
             <Header title="wayd" leftSideIcon="user-grey" />

@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { lightBeige } from "../../utils";
 import { TextInput, PasswordInput, AuthButton } from "../../utils/ui-library";
 import { AuthInputContainer } from "../styled";
+import firebase from "../../utils/firebase";
+require("firebase/auth");
+require("firebase/firestore");
 
 export default () => {
     const history = useHistory();
+    const [email, updateEmail] = useState<string>("");
+    const [password, updatePassword] = useState<string>("");
 
     const submit = () => {
         history.push("/");
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((userCredential: any) => {
+                // Signed in
+                var user = userCredential.user;
+                console.log(user);
+                // ...
+            })
+            .catch((error: any) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log({ errorCode, errorMessage });
+                // ..
+            });
     };
 
     return (
@@ -34,7 +54,12 @@ export default () => {
                     alt="email"
                     style={{ width: "20px" }}
                 />
-                <TextInput placeholder="Email" bordered={false} />
+                <TextInput
+                    placeholder="Email"
+                    bordered={false}
+                    value={email}
+                    onChange={(e) => updateEmail(e.target.value)}
+                />
             </AuthInputContainer>
             <AuthInputContainer>
                 <img
@@ -42,7 +67,12 @@ export default () => {
                     alt="password"
                     style={{ width: "20px" }}
                 />
-                <PasswordInput placeholder="Password" bordered={false} />
+                <PasswordInput
+                    placeholder="Password"
+                    bordered={false}
+                    value={password}
+                    onChange={(e) => updatePassword(e.target.value)}
+                />
             </AuthInputContainer>
             <AuthButton onClick={submit}>SIGN IN</AuthButton>
         </div>
