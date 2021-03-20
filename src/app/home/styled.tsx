@@ -20,13 +20,13 @@ export const Calendar = styled(ReactCalendar)`
 
     .react-calendar__tile.react-calendar__tile--now.react-calendar__month-view__days__day {
         border-radius: 50%;
-        background: ${darkBlue};
+        background: ${lightBlue};
         color: white;
         font-weight: bold;
         flex-basis: 36px !important;
 
         :hover {
-            background: ${darkBlue};
+            background: ${lightBlue};
         }
     }
 

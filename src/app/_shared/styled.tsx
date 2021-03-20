@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { darkOrange, textGrey } from "../../utils";
+import { darkOrange, lightOrange, textGrey } from "../../utils";
 import { ContentHeader, ContentText } from "../../utils/ui-library";
 
 export const AppContainer = styled.div`
@@ -18,7 +18,7 @@ export const Content = styled.div`
 `;
 
 export const FAB = styled.div`
-    background: ${darkOrange};
+    background: linear-gradient(${lightOrange}, ${darkOrange});
     height: 55px;
     width: 55px;
     position: fixed;
