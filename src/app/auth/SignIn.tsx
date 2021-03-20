@@ -3,11 +3,14 @@ import { useHistory } from "react-router-dom";
 import { lightBeige } from "../../utils";
 import { TextInput, PasswordInput, AuthButton } from "../../utils/ui-library";
 import { AuthInputContainer } from "../styled";
+import { useDispatch } from "react-redux";
 import firebase from "../../utils/firebase";
+import { cuserActions } from "../../state/cuser";
 require("firebase/auth");
 require("firebase/firestore");
 
 export default () => {
+    const dispatch = useDispatch();
     const history = useHistory();
     const [email, updateEmail] = useState<string>("");
     const [password, updatePassword] = useState<string>("");
@@ -21,6 +24,7 @@ export default () => {
                 // Signed in
                 var user = userCredential.user;
                 console.log(user);
+                dispatch(cuserActions.updateCuserId(user.uid));
                 // ...
             })
             .catch((error: any) => {

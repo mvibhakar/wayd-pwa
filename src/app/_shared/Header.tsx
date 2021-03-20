@@ -50,7 +50,6 @@ export const Header = ({
 const HeaderContainer = styled.div`
     background: ${lightBeige};
     width: 100%;
-    max-width: 800px;
     height: 56px;
     display: flex;
     align-items: center;

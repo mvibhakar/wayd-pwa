@@ -3,14 +3,16 @@ import ReactDOM from "react-dom";
 import "antd/dist/antd.css";
 import "./index.css";
 import App from "./app";
+import { Provider } from "react-redux";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
+import store from "./state/store";
 
 ReactDOM.render(
     <React.StrictMode>
-        <div style={{ maxWidth: "800px" }}>
+        <Provider store={store}>
             <App />
-        </div>
+        </Provider>
     </React.StrictMode>,
     document.getElementById("root")
 );

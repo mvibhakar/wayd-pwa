@@ -8,10 +8,13 @@ import { Header } from "../_shared/Header";
 import { MenuButton } from "./MenuButton";
 import { Calendar } from "./styled";
 import { FAB, Content, AppContainer } from "../_shared/styled";
+import { useSelectFromRedux } from "../../utils/hooks";
 var moment = require("moment");
 
 export default () => {
     const history = useHistory();
+    const { cuserId } = useSelectFromRedux((state) => state.cuser);
+    console.log(cuserId);
 
     const onDayClick = (value: Date) => {
         const momentDate = moment(value).format("MM-DD-YYYY");
