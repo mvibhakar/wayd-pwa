@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "react-calendar/dist/Calendar.css";
 import { S3Key } from "../../utils";
 import { Link, useHistory } from "react-router-dom";
@@ -8,10 +8,12 @@ import { Header } from "../_shared/Header";
 import { MenuButton } from "./MenuButton";
 import { Calendar } from "./styled";
 import { FAB, Content, AppContainer } from "../_shared/styled";
+import firebase from "../../utils/firebase";
 import { useSelectFromRedux } from "../../utils/hooks";
 var moment = require("moment");
 
 export default () => {
+    const db = firebase.firestore();
     const history = useHistory();
     const { cuserId } = useSelectFromRedux((state) => state.cuser);
     console.log(cuserId);
@@ -33,9 +35,20 @@ export default () => {
         }
     };
 
-    document.addEventListener("swiped-left", function (e: any) {
-        console.log(e.target); // the element that was swiped
-    });
+    useEffect(() => {
+        db.collection("users")
+            .get()
+            .then((querySnapshot) => {
+                console.log(querySnapshot.docs.map((d) => d.data()));
+                // querySnapshot.forEach((doc) => {
+                //     // doc.data() is never undefined for query doc snapshots
+                //     console.log(doc.id, " => ", doc.data());
+                // });
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+    }, []);
 
     return (
         <AppContainer>

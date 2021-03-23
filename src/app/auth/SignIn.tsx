@@ -10,6 +10,7 @@ require("firebase/auth");
 require("firebase/firestore");
 
 export default () => {
+    const db = firebase.firestore();
     const dispatch = useDispatch();
     const history = useHistory();
     const [email, updateEmail] = useState<string>("");
@@ -21,17 +22,23 @@ export default () => {
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .then((userCredential: any) => {
-                // Signed in
                 var user = userCredential.user;
                 console.log(user);
                 dispatch(cuserActions.updateCuserId(user.uid));
-                // ...
+                db.collection("users")
+                    .doc()
+                    .set({
+                        email: user.email,
+                        uid: user.uid,
+                    })
+                    .catch((error) => {
+                        console.error("Error writing document: ", error);
+                    });
             })
             .catch((error: any) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 console.log({ errorCode, errorMessage });
-                // ..
             });
     };
 

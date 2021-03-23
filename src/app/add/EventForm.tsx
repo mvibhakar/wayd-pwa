@@ -6,7 +6,8 @@ import { SpaceBetweenFlexContainer } from "../_shared/styled";
 var moment = require("moment-timezone");
 
 export const EventForm = () => {
-    const [toggleValue, updateToggleValue] = useState<boolean>(false);
+    const [eventTitle, updateEventTitle] = useState<string>("");
+    const [isAllDay, updateIsAllDay] = useState<boolean>(false);
     const dateFormat = "MMMM Do, YYYY";
     const timeFormat = "h:mm A";
     const remainder = 30 - (moment().minute() % 30);
@@ -24,18 +25,25 @@ export const EventForm = () => {
         }
     };
 
+    console.log(eventTitle);
+
     return (
         <>
             <FormSection>
-                <TextInputWithBottomBorder placeholder="Enter event" bordered={false} />
+                <TextInputWithBottomBorder
+                    placeholder="Enter event"
+                    bordered={false}
+                    value={eventTitle}
+                    onChange={(e) => updateEventTitle(e.target.value)}
+                />
             </FormSection>
             <FormSection>
                 <SpaceBetweenFlexContainer>
                     <ContentText>All-day</ContentText>
-                    <Toggle checked={toggleValue} onClick={() => updateToggleValue(!toggleValue)} />
+                    <Toggle checked={isAllDay} onClick={() => updateIsAllDay(!isAllDay)} />
                 </SpaceBetweenFlexContainer>
             </FormSection>
-            {toggleValue === false && (
+            {isAllDay === false && (
                 <>
                     <FormSection>
                         <ContentHeader>start time</ContentHeader>
