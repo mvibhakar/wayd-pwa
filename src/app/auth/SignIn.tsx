@@ -17,7 +17,6 @@ export default () => {
     const [password, updatePassword] = useState<string>("");
 
     const submit = () => {
-        history.push("/");
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
@@ -30,6 +29,9 @@ export default () => {
                     .set({
                         email: user.email,
                         uid: user.uid,
+                    })
+                    .then(() => {
+                        history.push("/");
                     })
                     .catch((error) => {
                         console.error("Error writing document: ", error);

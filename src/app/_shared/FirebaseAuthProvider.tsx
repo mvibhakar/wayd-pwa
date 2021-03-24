@@ -2,6 +2,7 @@ import firebase from "../../utils/firebase";
 import React, { createContext, FunctionComponent, useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useSelectFromRedux } from "../../utils/hooks";
 
 // import { userActions } from '../../_state/user';
 // import * as userOperations from '../../_state/user/operations';
@@ -21,6 +22,7 @@ const { Provider } = authContext;
 export const FirebaseAuthProvider: FunctionComponent = ({ children }) => {
     const [user, setUser] = useState<firebase.User | null | undefined>(undefined);
     const [auth, setAuth] = useState<firebase.auth.Auth | undefined>(undefined);
+    const { cuserId } = useSelectFromRedux((state) => state.cuser);
     const dispatch = useDispatch();
 
     // console.log({ user, auth });
@@ -42,7 +44,7 @@ export const FirebaseAuthProvider: FunctionComponent = ({ children }) => {
                 // dispatch(userActions.setCuser(null));
             }
         });
-    }, []);
+    }, [cuserId]);
 
     const logout = () =>
         auth?.signOut().then(() => {
