@@ -10,6 +10,7 @@ const actionMap = {
     updateAddEventIsAllDay: payloadAction<boolean>(),
     updateAddEventStartTime: payloadAction<moment.Moment | null>(),
     updateAddEventEndTime: payloadAction<moment.Moment | null>(),
+    resetAddDayItem: simpleAction(),
 };
 
 export const dayActions = actionFactory(actionMap, "DAY");
@@ -57,6 +58,14 @@ const dayReducer = (state = getInitialState(), action: DayAction) =>
                     break;
                 case "updateAddEventEndTime":
                     draftState.addEventEndTime = action.payload;
+                    break;
+                case "resetAddDayItem":
+                    draftState.addDayItemSetting = getInitialState().addDayItemSetting;
+                    draftState.addDayItemContent = getInitialState().addDayItemContent;
+                    draftState.addDayItemDate = getInitialState().addDayItemDate;
+                    draftState.addEventIsAllDay = getInitialState().addEventIsAllDay;
+                    draftState.addEventStartTime = getInitialState().addEventStartTime;
+                    draftState.addEventEndTime = getInitialState().addEventEndTime;
                     break;
                 default:
                     break;

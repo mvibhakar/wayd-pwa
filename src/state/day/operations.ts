@@ -1,4 +1,5 @@
 import moment from "moment";
+import { dayActions } from ".";
 import { Operation, PromiseOperation } from "..";
 import firebase from "../../utils/firebase";
 
@@ -46,6 +47,9 @@ export const createEvent: PromiseOperation<void> = () => async (dispatch, getSta
     db.collection("events")
         .doc()
         .set(eventObject)
+        .then(() => {
+            dispatch(dayActions.resetAddDayItem());
+        })
         .catch((error) => {
             console.error("Error writing document: ", error);
         });
@@ -71,6 +75,9 @@ export const createTask: PromiseOperation<void> = () => async (dispatch, getStat
     db.collection("tasks")
         .doc()
         .set(taskObject)
+        .then(() => {
+            dispatch(dayActions.resetAddDayItem());
+        })
         .catch((error) => {
             console.error("Error writing document: ", error);
         });
@@ -95,6 +102,9 @@ export const createThought: PromiseOperation<void> = () => async (dispatch, getS
     db.collection("thoughts")
         .doc()
         .set(thoughtObject)
+        .then(() => {
+            dispatch(dayActions.resetAddDayItem());
+        })
         .catch((error) => {
             console.error("Error writing document: ", error);
         });

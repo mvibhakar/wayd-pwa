@@ -10,9 +10,11 @@ import { Calendar } from "./styled";
 import { FAB, Content, AppContainer } from "../_shared/styled";
 import firebase from "../../utils/firebase";
 import { useSelectFromRedux } from "../../utils/hooks";
+import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
 var moment = require("moment");
 
 export default () => {
+    const requireAuth = useRequireAuth();
     const db = firebase.firestore();
     const history = useHistory();
     const { cuserId } = useSelectFromRedux((state) => state.cuser);
@@ -34,6 +36,8 @@ export default () => {
             return <img src={S3Key + "right-arrow-grey.png"} alt="right-arrow" width="18px" />;
         }
     };
+
+    console.log(requireAuth);
 
     useEffect(() => {
         db.collection("events")

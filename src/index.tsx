@@ -7,11 +7,14 @@ import { Provider } from "react-redux";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import store from "./state/store";
+import { FirebaseAuthProvider } from "./app/_shared/FirebaseAuthProvider";
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App />
+            <FirebaseAuthProvider>
+                <App />
+            </FirebaseAuthProvider>
         </Provider>
     </React.StrictMode>,
     document.getElementById("root")

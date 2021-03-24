@@ -18,8 +18,8 @@ function App() {
         <Router>
             <div>
                 <Switch>
-                    <Route path="/" exact component={() => <Home />} />
                     <Route path="/sign-in" exact component={() => <SignIn />} />
+                    <Route path="/" component={() => <Home />} />
                     <Route path="/day" component={() => <Day />} />
                     <Route path="/lists" component={() => <Lists />} />
                     <Route path="/notes" component={() => <Notes />} />
