@@ -7,22 +7,33 @@ import { EventForm } from "./EventForm";
 import { RadioGroup, RadioButton } from "./styled";
 import { TaskForm } from "./TaskForm";
 import { ThoughtForm } from "./ThoughtForm";
-import { dayOperations } from "../../state/day";
-import { useDispatchPromise } from "../../utils/hooks";
+import { dayActions, dayOperations } from "../../state/day";
+import { useDispatchPromise, useSelectFromRedux } from "../../utils/hooks";
 
 export const AddDayItem = () => {
+    const dispatch = useDispatch();
     const dispatchPromise = useDispatchPromise();
     const history = useHistory();
-    const [radioValue, updateRadioValue] = useState<string>("event");
+    const { addDayItemSetting } = useSelectFromRedux((state) => state.day);
 
     const backIconAction = () => {
         history.goBack();
     };
 
     const checkIconAction = () => {
-        dispatchPromise(dayOperations.createEvent()).then(() => {
-            history.push("/");
-        });
+        if (addDayItemSetting === "event") {
+            dispatchPromise(dayOperations.createEvent()).then(() => {
+                history.push("/");
+            });
+        } else if (addDayItemSetting === "task") {
+            dispatchPromise(dayOperations.createTask()).then(() => {
+                history.push("/");
+            });
+        } else if (addDayItemSetting === "thought") {
+            dispatchPromise(dayOperations.createThought()).then(() => {
+                history.push("/");
+            });
+        }
     };
 
     return (
@@ -35,14 +46,17 @@ export const AddDayItem = () => {
                 rightSideRightIconAction={checkIconAction}
             />
             <Content style={{ padding: "0 40px" }}>
-                <RadioGroup value={radioValue} onChange={(e) => updateRadioValue(e.target.value)}>
+                <RadioGroup
+                    value={addDayItemSetting}
+                    onChange={(e) => dispatch(dayActions.updateAddDayItemSetting(e.target.value))}
+                >
                     <RadioButton value="event">EVENT</RadioButton>
-                    <RadioButton value="task">TASK</RadioButton>
+                    <RadioButton value="task">TO-DO</RadioButton>
                     <RadioButton value="thought">THOUGHT</RadioButton>
                 </RadioGroup>
-                {radioValue === "event" && <EventForm />}
-                {radioValue === "task" && <TaskForm />}
-                {radioValue === "thought" && <ThoughtForm />}
+                {addDayItemSetting === "event" && <EventForm />}
+                {addDayItemSetting === "task" && <TaskForm />}
+                {addDayItemSetting === "thought" && <ThoughtForm />}
             </Content>
         </AppContainer>
     );

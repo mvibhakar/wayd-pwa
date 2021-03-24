@@ -36,11 +36,11 @@ export default () => {
     };
 
     useEffect(() => {
-        db.collection("users")
+        db.collection("events")
             .get()
             .then((querySnapshot) => {
                 // console.log(querySnapshot.docs.map((d) => d.data()));
-                let users = Array.from(
+                let events = Array.from(
                     new Set(
                         querySnapshot.docs.map((d: any) => ({
                             id: d.id,
@@ -48,7 +48,7 @@ export default () => {
                         }))
                     )
                 );
-                console.log(users);
+                console.log(events);
                 // querySnapshot.forEach((doc) => {
                 //     // doc.data() is never undefined for query doc snapshots
                 //     console.log(doc.id, doc.data());

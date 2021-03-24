@@ -50,3 +50,52 @@ export const createEvent: PromiseOperation<void> = () => async (dispatch, getSta
             console.error("Error writing document: ", error);
         });
 };
+
+export const createTask: PromiseOperation<void> = () => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+
+    const { cuserId } = state.cuser;
+    const { addDayItemContent, addDayItemDate } = state.day;
+
+    const dateTimeString = moment(addDayItemDate)?.toString();
+    let formattedDateTime = new firebase.firestore.Timestamp(Math.floor(Date.parse(dateTimeString) / 1000), 0);
+
+    let taskObject = {
+        uid: cuserId,
+        content: addDayItemContent,
+        datetime: formattedDateTime,
+        checked: false,
+    };
+
+    db.collection("tasks")
+        .doc()
+        .set(taskObject)
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
+export const createThought: PromiseOperation<void> = () => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+
+    const { cuserId } = state.cuser;
+    const { addDayItemContent, addDayItemDate } = state.day;
+
+    const dateTimeString = moment(addDayItemDate)?.toString();
+    let formattedDateTime = new firebase.firestore.Timestamp(Math.floor(Date.parse(dateTimeString) / 1000), 0);
+
+    let thoughtObject = {
+        uid: cuserId,
+        content: addDayItemContent,
+        datetime: formattedDateTime,
+    };
+
+    db.collection("thoughts")
+        .doc()
+        .set(thoughtObject)
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
