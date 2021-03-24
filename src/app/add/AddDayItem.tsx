@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Header } from "../_shared/Header";
 import { AppContainer, Content } from "../_shared/styled";
 import { EventForm } from "./EventForm";
 import { RadioGroup, RadioButton } from "./styled";
 import { TaskForm } from "./TaskForm";
 import { ThoughtForm } from "./ThoughtForm";
+import { dayOperations } from "../../state/day";
+import { useDispatchPromise } from "../../utils/hooks";
 
 export const AddDayItem = () => {
+    const dispatchPromise = useDispatchPromise();
     const history = useHistory();
     const [radioValue, updateRadioValue] = useState<string>("event");
 
@@ -16,7 +20,9 @@ export const AddDayItem = () => {
     };
 
     const checkIconAction = () => {
-        history.push("/");
+        dispatchPromise(dayOperations.createEvent()).then(() => {
+            history.push("/");
+        });
     };
 
     return (

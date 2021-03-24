@@ -39,10 +39,19 @@ export default () => {
         db.collection("users")
             .get()
             .then((querySnapshot) => {
-                console.log(querySnapshot.docs.map((d) => d.data()));
+                // console.log(querySnapshot.docs.map((d) => d.data()));
+                let users = Array.from(
+                    new Set(
+                        querySnapshot.docs.map((d: any) => ({
+                            id: d.id,
+                            ...d.data(),
+                        }))
+                    )
+                );
+                console.log(users);
                 // querySnapshot.forEach((doc) => {
                 //     // doc.data() is never undefined for query doc snapshots
-                //     console.log(doc.id, " => ", doc.data());
+                //     console.log(doc.id, doc.data());
                 // });
             })
             .catch((error) => {
