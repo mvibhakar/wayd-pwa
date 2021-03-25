@@ -45,7 +45,7 @@ export const createList: PromiseOperation<void> = (listTitle, listItems) => asyn
     }
 };
 
-export const createNote: PromiseOperation<void> = (listTitle, listItems) => async (dispatch, getState) => {
+export const createNote: PromiseOperation<void> = (noteTitle, noteContent) => async (dispatch, getState) => {
     const state = getState();
     const db = firebase.firestore();
 
@@ -56,32 +56,17 @@ export const createNote: PromiseOperation<void> = (listTitle, listItems) => asyn
         0
     );
 
-    const listObject: any = {
+    const noteObject: any = {
         uid: cuserId,
-        title: listTitle,
+        title: noteTitle,
+        content: noteContent,
         created_at: formattedCurrentDateTime,
     };
 
     if (cuserId) {
-        db.collection("lists")
-            .doc(cuserId + formattedCurrentDateTime)
-            .set(listObject)
-            .then(() => {
-                listItems.forEach((item: any) => {
-                    let listItemObject: any = {
-                        list_id: cuserId + formattedCurrentDateTime,
-                        content: item.value,
-                        order: item.order,
-                        checked: false,
-                    };
-                    db.collection("listItems")
-                        .doc()
-                        .set(listItemObject)
-                        .catch((error) => {
-                            console.error("Error writing document: ", error);
-                        });
-                });
-            })
+        db.collection("notes")
+            .doc()
+            .set(noteObject)
             .catch((error) => {
                 console.error("Error writing document: ", error);
             });

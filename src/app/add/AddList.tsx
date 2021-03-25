@@ -16,7 +16,6 @@ interface ListItem {
 export const AddList = () => {
     const history = useHistory();
     const dispatchPromise = useDispatchPromise();
-
     const [listTitle, updateListTitle] = useState<string>("");
     const [listItems, updateListItems] = useState<ListItem[]>([]);
     const [newValue, updateNewValue] = useState<string>("");

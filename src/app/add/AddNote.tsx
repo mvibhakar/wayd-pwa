@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { notDayOperations } from "../../state/not-day";
+import { useDispatchPromise } from "../../utils/hooks";
 
 // components
 import { ExpandingTextAreaWithBottomBorder, TextInputWithBottomBorder } from "../../utils/ui-library";
@@ -9,13 +11,18 @@ import { FormSection } from "./styled";
 
 export const AddNote = () => {
     const history = useHistory();
+    const dispatchPromise = useDispatchPromise();
+    const [noteTitle, updateNoteTitle] = useState<string>("");
+    const [noteContent, updateNoteContent] = useState<string>("");
 
     const backIconAction = () => {
         history.goBack();
     };
 
     const submit = () => {
-        history.push("/notes");
+        dispatchPromise(notDayOperations.createNote(noteTitle, noteContent)).then(() => {
+            history.push("/notes");
+        });
     };
 
     return (
@@ -29,10 +36,21 @@ export const AddNote = () => {
             />
             <Content style={{ padding: "0 40px 40px" }}>
                 <FormSection>
-                    <TextInputWithBottomBorder placeholder="Enter note title" bordered={false} />
+                    <TextInputWithBottomBorder
+                        placeholder="Enter note title"
+                        bordered={false}
+                        value={noteTitle}
+                        onChange={(e) => updateNoteTitle(e.target.value)}
+                    />
                 </FormSection>
                 <FormSection>
-                    <ExpandingTextAreaWithBottomBorder autoSize placeholder="Enter note" bordered={false} />
+                    <ExpandingTextAreaWithBottomBorder
+                        autoSize
+                        placeholder="Enter note"
+                        bordered={false}
+                        value={noteContent}
+                        onChange={(e) => updateNoteContent(e.target.value)}
+                    />
                 </FormSection>
             </Content>
         </AppContainer>
