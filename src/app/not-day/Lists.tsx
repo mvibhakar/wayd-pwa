@@ -1,6 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { S3Key } from "../../utils";
+import { useSelectFromRedux } from "../../utils/hooks";
+import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
 
 // components
 import { Header } from "../_shared/Header";
@@ -16,7 +18,9 @@ import {
 } from "../_shared/styled";
 
 export const Lists = () => {
+    const requireAuth = useRequireAuth();
     const history = useHistory();
+    const { cuserId } = useSelectFromRedux((state) => state.cuser);
 
     const homeIconAction = () => {
         history.push("/");
@@ -26,48 +30,54 @@ export const Lists = () => {
         history.push("/add-list");
     };
 
-    return (
-        <AppContainer>
-            <Header title="my lists" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
-            <Content>
-                <Card>
-                    <CardHeader>jfkrflmink</CardHeader>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
-                        <ListItemText>quis ligula ultricies quis ligula ultricies quis ligula ultricies</ListItemText>
-                    </ContentItemContainer>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
-                        <ListItemText>lobortis malesuada</ListItemText>
-                    </ContentItemContainer>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
-                        <ListItemText>scelerisque sodales</ListItemText>
-                    </ContentItemContainer>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
-                        <ListItemText>euismod nibh diam</ListItemText>
-                    </ContentItemContainer>
-                </Card>
-                <Card>
-                    <CardHeader>plifthar</CardHeader>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
-                        <ListItemText>sed ipfmkum friujut</ListItemText>
-                    </ContentItemContainer>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
-                        <ListItemText>eiumsud quis a quis</ListItemText>
-                    </ContentItemContainer>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
-                        <ListItemText>malesuada efficitur</ListItemText>
-                    </ContentItemContainer>
-                </Card>
-            </Content>
-            <FAB>
-                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
-            </FAB>
-        </AppContainer>
-    );
+    if (!cuserId) {
+        return <div style={{ height: "500px", width: "500px", background: "purple" }} />;
+    } else {
+        return (
+            <AppContainer>
+                <Header title="my lists" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
+                <Content>
+                    <Card>
+                        <CardHeader>jfkrflmink</CardHeader>
+                        <ContentItemContainer>
+                            <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
+                            <ListItemText>
+                                quis ligula ultricies quis ligula ultricies quis ligula ultricies
+                            </ListItemText>
+                        </ContentItemContainer>
+                        <ContentItemContainer>
+                            <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
+                            <ListItemText>lobortis malesuada</ListItemText>
+                        </ContentItemContainer>
+                        <ContentItemContainer>
+                            <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
+                            <ListItemText>scelerisque sodales</ListItemText>
+                        </ContentItemContainer>
+                        <ContentItemContainer>
+                            <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
+                            <ListItemText>euismod nibh diam</ListItemText>
+                        </ContentItemContainer>
+                    </Card>
+                    <Card>
+                        <CardHeader>plifthar</CardHeader>
+                        <ContentItemContainer>
+                            <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
+                            <ListItemText>sed ipfmkum friujut</ListItemText>
+                        </ContentItemContainer>
+                        <ContentItemContainer>
+                            <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
+                            <ListItemText>eiumsud quis a quis</ListItemText>
+                        </ContentItemContainer>
+                        <ContentItemContainer>
+                            <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
+                            <ListItemText>malesuada efficitur</ListItemText>
+                        </ContentItemContainer>
+                    </Card>
+                </Content>
+                <FAB>
+                    <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
+                </FAB>
+            </AppContainer>
+        );
+    }
 };

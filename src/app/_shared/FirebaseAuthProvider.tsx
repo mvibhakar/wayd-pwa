@@ -3,15 +3,14 @@ import React, { createContext, FunctionComponent, useContext, useEffect, useStat
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelectFromRedux } from "../../utils/hooks";
-
-// import { userActions } from '../../_state/user';
-// import * as userOperations from '../../_state/user/operations';
+import { cuserActions } from "../../state/cuser";
 
 interface AuthContext {
     user: firebase.User | null | undefined;
     auth: firebase.auth.Auth | undefined;
     logout(): void;
 }
+
 const authContext = createContext<AuthContext>({
     user: undefined,
     auth: undefined,
@@ -22,10 +21,7 @@ const { Provider } = authContext;
 export const FirebaseAuthProvider: FunctionComponent = ({ children }) => {
     const [user, setUser] = useState<firebase.User | null | undefined>(undefined);
     const [auth, setAuth] = useState<firebase.auth.Auth | undefined>(undefined);
-    const { cuserId } = useSelectFromRedux((state) => state.cuser);
     const dispatch = useDispatch();
-
-    // console.log({ user, auth });
 
     useEffect(() => {
         void firebase
@@ -36,15 +32,13 @@ export const FirebaseAuthProvider: FunctionComponent = ({ children }) => {
         firebase.auth().onAuthStateChanged((fbUser) => {
             if (fbUser) {
                 setUser(fbUser);
-                // console.log("YEET", fbUser);
-                // dispatch(userOperations.getCuser());
+                dispatch(cuserActions.updateCuserId(fbUser.uid));
             } else {
                 setUser(null);
-                // console.log("NAH");
-                // dispatch(userActions.setCuser(null));
+                dispatch(cuserActions.updateCuserId(null));
             }
         });
-    }, [cuserId]);
+    }, []);
 
     const logout = () =>
         auth?.signOut().then(() => {
@@ -53,6 +47,7 @@ export const FirebaseAuthProvider: FunctionComponent = ({ children }) => {
 
     return <Provider value={{ user, auth, logout }}>{children}</Provider>;
 };
+
 export const useAuth = (): AuthContext => useContext(authContext);
 
 export const useRequireAuth = () => {
