@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { S3Key } from "../../utils";
+import { useSelectFromRedux } from "../../utils/hooks";
 
 // components
 import { ContentText } from "../../utils/ui-library";
@@ -9,6 +10,7 @@ import { AppContainer, Content, FAB, Card, CardHeader } from "../_shared/styled"
 
 export const Notes = () => {
     const history = useHistory();
+    const { notes } = useSelectFromRedux((state) => state.cuser);
 
     const homeIconAction = () => {
         history.push("/");
@@ -22,18 +24,17 @@ export const Notes = () => {
         <AppContainer>
             <Header title="my notes" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
             <Content>
-                <Card>
-                    <CardHeader style={{ marginBottom: "10px" }}>consectetur</CardHeader>
-                    <ContentText>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor hutnke fnjnks plifthar sit
-                        amet, consectetur adipisicing elit, sed do eiusmod. Donec vitae tristique erat. Mauris at lorem
-                        sed ipsum pharetra tristique in a lectus. Proin sapien elit, dictum sed massa ut, auctor sodales
-                        lacus. Suspendisse potenti.
-                    </ContentText>
-                </Card>
-                <Card>
+                {notes &&
+                    notes
+                        .slice(0)
+                        .reverse()
+                        .map((note: any) => (
+                            <Card key={note.id}>
+                                <CardHeader style={{ marginBottom: "10px" }}>{note.title}</CardHeader>
+                                <ContentText style={{ whiteSpace: "pre-line" }}>{note.content}</ContentText>
+                            </Card>
+                        ))}
+                {/* <Card>
                     <CardHeader style={{ marginBottom: "10px" }}>hutnke fnjnks</CardHeader>
                     <ContentText>
                         Ut accumsan nulla eget turpis malesuada, eget aliquet enim faucibus. Phasellus id mauris vitae
@@ -45,7 +46,7 @@ export const Notes = () => {
                         ultrices eget ac sem. Nulla facilisi. Integer bibendum, sapien sed accumsan imperdiet, dolor
                         odio dapibus tortor, in luctus ipsum diam sit amet diam.
                     </ContentText>
-                </Card>
+                </Card> */}
             </Content>
             <FAB>
                 <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
