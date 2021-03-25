@@ -79,7 +79,11 @@ export const AddList = () => {
                 {listItems.map((listItem) => (
                     <FormSection key={listItem.order}>
                         <ContentItemContainer>
-                            <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
+                            <ListItemIcon
+                                src={S3Key + "rect-unchecked-grey.png"}
+                                alt="unchecked"
+                                style={{ marginTop: "3px" }}
+                            />
                             <TextInputWithBottomBorder
                                 key={listItem.order}
                                 placeholder="Enter list item"
@@ -92,7 +96,11 @@ export const AddList = () => {
                 ))}
                 <FormSection>
                     <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
+                        <ListItemIcon
+                            src={S3Key + "rect-unchecked-grey.png"}
+                            alt="unchecked"
+                            style={{ marginTop: "3px" }}
+                        />
                         <TextInputWithBottomBorder
                             placeholder="Enter list item"
                             value={newValue}

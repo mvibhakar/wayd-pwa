@@ -1,4 +1,5 @@
 import moment from "moment";
+import { useHistory } from "react-router-dom";
 import { dayActions } from ".";
 import { Operation, PromiseOperation } from "..";
 import firebase from "../../utils/firebase";
@@ -37,12 +38,14 @@ export const createEvent: PromiseOperation<void> = () => async (dispatch, getSta
         uid: cuserId,
         content: addDayItemContent,
         is_allday: addEventIsAllDay,
+        start_datetime: formattedStartDateTime,
+        end_datetime: formattedEndDateTime,
     };
 
-    if (!addEventIsAllDay) {
-        eventObject.start_datetime = formattedStartDateTime;
-        eventObject.end_datetime = formattedEndDateTime;
-    }
+    // if (!addEventIsAllDay) {
+    //     eventObject.start_datetime = formattedStartDateTime;
+    //     eventObject.end_datetime = formattedEndDateTime;
+    // }
 
     db.collection("events")
         .doc()

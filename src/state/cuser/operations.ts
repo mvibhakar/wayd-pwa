@@ -8,8 +8,10 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
 
     db.collection("events")
         .where("uid", "==", cuserId)
-        .get()
-        .then((querySnapshot) => {
+        .orderBy("is_allday", "desc")
+        .orderBy("start_datetime")
+        .orderBy("end_datetime")
+        .onSnapshot((querySnapshot) => {
             let events = Array.from(
                 new Set(
                     querySnapshot.docs.map((d: any) => ({
@@ -19,15 +21,11 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
                 )
             );
             dispatch(cuserActions.updateEvents(events));
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
         });
 
     db.collection("listItems")
         .where("uid", "==", cuserId)
-        .get()
-        .then((querySnapshot) => {
+        .onSnapshot((querySnapshot) => {
             let listItems = Array.from(
                 new Set(
                     querySnapshot.docs.map((d: any) => ({
@@ -37,15 +35,11 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
                 )
             );
             dispatch(cuserActions.updateListItems(listItems));
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
         });
 
     db.collection("lists")
         .where("uid", "==", cuserId)
-        .get()
-        .then((querySnapshot) => {
+        .onSnapshot((querySnapshot) => {
             let lists = Array.from(
                 new Set(
                     querySnapshot.docs.map((d: any) => ({
@@ -55,15 +49,12 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
                 )
             );
             dispatch(cuserActions.updateLists(lists));
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
         });
 
     db.collection("notes")
         .where("uid", "==", cuserId)
-        .get()
-        .then((querySnapshot) => {
+        .orderBy("created_at", "desc")
+        .onSnapshot((querySnapshot) => {
             let notes = Array.from(
                 new Set(
                     querySnapshot.docs.map((d: any) => ({
@@ -73,15 +64,12 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
                 )
             );
             dispatch(cuserActions.updateNotes(notes));
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
         });
 
     db.collection("tasks")
         .where("uid", "==", cuserId)
-        .get()
-        .then((querySnapshot) => {
+        .orderBy("datetime")
+        .onSnapshot((querySnapshot) => {
             let tasks = Array.from(
                 new Set(
                     querySnapshot.docs.map((d: any) => ({
@@ -91,15 +79,11 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
                 )
             );
             dispatch(cuserActions.updateTasks(tasks));
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
         });
 
     db.collection("thoughts")
         .where("uid", "==", cuserId)
-        .get()
-        .then((querySnapshot) => {
+        .onSnapshot((querySnapshot) => {
             let thoughts = Array.from(
                 new Set(
                     querySnapshot.docs.map((d: any) => ({
@@ -109,8 +93,5 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
                 )
             );
             dispatch(cuserActions.updateThoughts(thoughts));
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
         });
 };

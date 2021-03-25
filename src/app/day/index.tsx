@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { S3Key } from "../../utils";
+import { useSelectFromRedux } from "../../utils/hooks";
 
 // components
 import { ContentText } from "../../utils/ui-library";
@@ -18,6 +19,8 @@ import {
     StreakContainer,
 } from "../_shared/styled";
 import { TaskTextContainer, TaskTimeContainer } from "./styled";
+import firebase from "../../utils/firebase";
+
 var moment = require("moment");
 
 export const Day = () => {
@@ -25,6 +28,15 @@ export const Day = () => {
     const path = window.location.pathname;
     const rawDate = path.slice(-10);
     const formattedDate = moment(new Date(rawDate));
+    const { events, tasks, thoughts } = useSelectFromRedux((state) => state.cuser);
+    const filteredEvents =
+        events && events.filter((event: any) => moment(event.start_datetime.toDate()).isSame(formattedDate, "day"));
+    const filteredTasks =
+        tasks && tasks.filter((task: any) => moment(task.datetime.toDate()).isSame(formattedDate, "day"));
+    const filteredThoughts =
+        thoughts && thoughts.filter((thought: any) => moment(thought.datetime.toDate()).isSame(formattedDate, "day"));
+
+    console.log(filteredTasks);
 
     const getHeaderString = () => {
         const current = moment();
@@ -60,6 +72,20 @@ export const Day = () => {
         history.push("/");
     };
 
+    const getStartEndTimeString = (
+        startTime: firebase.firestore.Timestamp,
+        endTime: firebase.firestore.Timestamp,
+        isAllday: boolean
+    ) => {
+        if (isAllday) {
+            return "All day";
+        } else {
+            const formattedStartTime = moment(startTime.toDate()).format("h:mma");
+            const formattedEndTime = moment(endTime.toDate()).format("h:mma");
+            return formattedStartTime + " - " + formattedEndTime;
+        }
+    };
+
     return (
         <AppContainer>
             <Header
@@ -74,20 +100,30 @@ export const Day = () => {
             <Content>
                 <Card>
                     <CardHeader>schedule</CardHeader>
-                    <ContentItemContainer event={true}>
+                    {/* <ContentItemContainer event={true}>
                         <TaskTimeContainer>7:00am - 8:00am</TaskTimeContainer>
                         <TaskTextContainer>Nullam nisl</TaskTextContainer>
                     </ContentItemContainer>
                     <ContentItemContainer event={true}>
-                        <TaskTimeContainer>10:00pm - 10:30pm</TaskTimeContainer>
+                        <TaskTimeContainer>All day</TaskTimeContainer>
                         <TaskTextContainer>
                             Vesti bulum ornare, nisl nec malesuada hendrerit, erat elit fringilla eros, in auctor lacus
                         </TaskTextContainer>
-                    </ContentItemContainer>
+                    </ContentItemContainer> */}
+                    {filteredEvents &&
+                        filteredEvents.length > 0 &&
+                        filteredEvents.map((event: any) => (
+                            <ContentItemContainer event={true} key={event.id}>
+                                <TaskTimeContainer>
+                                    {getStartEndTimeString(event.start_datetime, event.end_datetime, event.is_allday)}
+                                </TaskTimeContainer>
+                                <TaskTextContainer>{event.content}</TaskTextContainer>
+                            </ContentItemContainer>
+                        ))}
                 </Card>
                 <Card>
                     <CardHeader>to-do</CardHeader>
-                    <ContentItemContainer>
+                    {/* <ContentItemContainer>
                         <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
                         <ListItemText>
                             esti bulum ornare, nisl nec malesuada hendrerit, erat elit fringilla
@@ -96,7 +132,19 @@ export const Day = () => {
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
                         <ListItemText>lobortis malesuada</ListItemText>
-                    </ContentItemContainer>
+                    </ContentItemContainer> */}
+                    {filteredTasks &&
+                        filteredTasks.length > 0 &&
+                        filteredTasks.map((task: any) => (
+                            <ContentItemContainer key={task.id}>
+                                {task.checked ? (
+                                    <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
+                                ) : (
+                                    <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
+                                )}
+                                <ListItemText>{task.content}</ListItemText>
+                            </ContentItemContainer>
+                        ))}
                 </Card>
                 <Card>
                     <CardHeader>habits</CardHeader>
@@ -133,14 +181,16 @@ export const Day = () => {
                 </Card>
                 <Card style={{ marginBottom: "0px" }}>
                     <CardHeader style={{ marginBottom: "10px" }}>thoughts</CardHeader>
-                    <ContentText>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor hutnke fnjnks plifthar sit
-                        amet, consectetur adipisicing elit, sed do eiusmod. Donec vitae tristique erat. Mauris at lorem
-                        sed ipsum pharetra tristique in a lectus. Proin sapien elit, dictum sed massa ut, auctor sodales
-                        lacus. Suspendisse potenti.
-                    </ContentText>
+                    {filteredThoughts &&
+                        filteredThoughts.length > 0 &&
+                        filteredThoughts.map((thought: any) => (
+                            <ContentText key={thought.id} style={{ whiteSpace: "pre-line" }}>
+                                {thought.content}
+                            </ContentText>
+                        ))}
+                    {filteredThoughts && filteredThoughts.length === 0 && (
+                        <ContentText>No thoughts for today!</ContentText>
+                    )}
                 </Card>
             </Content>
             <FAB>

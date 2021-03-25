@@ -25,15 +25,12 @@ export const Notes = () => {
             <Header title="my notes" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
             <Content>
                 {notes &&
-                    notes
-                        .slice(0)
-                        .reverse()
-                        .map((note: any) => (
-                            <Card key={note.id}>
-                                <CardHeader style={{ marginBottom: "10px" }}>{note.title}</CardHeader>
-                                <ContentText style={{ whiteSpace: "pre-line" }}>{note.content}</ContentText>
-                            </Card>
-                        ))}
+                    notes.map((note: any) => (
+                        <Card key={note.id}>
+                            <CardHeader style={{ marginBottom: "10px" }}>{note.title}</CardHeader>
+                            <ContentText style={{ whiteSpace: "pre-line" }}>{note.content}</ContentText>
+                        </Card>
+                    ))}
                 {/* <Card>
                     <CardHeader style={{ marginBottom: "10px" }}>hutnke fnjnks</CardHeader>
                     <ContentText>

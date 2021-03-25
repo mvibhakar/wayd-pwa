@@ -14,7 +14,8 @@ export const AddDayItem = () => {
     const dispatch = useDispatch();
     const dispatchPromise = useDispatchPromise();
     const history = useHistory();
-    const { addDayItemSetting } = useSelectFromRedux((state) => state.day);
+    const { addDayItemSetting, addDayItemDate } = useSelectFromRedux((state) => state.day);
+    const dateForNav = addDayItemDate ? addDayItemDate.format("MM-DD-YYYY") : null;
 
     const backIconAction = () => {
         history.goBack();
@@ -23,15 +24,27 @@ export const AddDayItem = () => {
     const checkIconAction = () => {
         if (addDayItemSetting === "event") {
             dispatchPromise(dayOperations.createEvent()).then(() => {
-                history.push("/");
+                if (dateForNav) {
+                    history.push("/day/" + dateForNav);
+                } else {
+                    history.goBack();
+                }
             });
         } else if (addDayItemSetting === "task") {
             dispatchPromise(dayOperations.createTask()).then(() => {
-                history.push("/");
+                if (dateForNav) {
+                    history.push("/day/" + dateForNav);
+                } else {
+                    history.goBack();
+                }
             });
         } else if (addDayItemSetting === "thought") {
             dispatchPromise(dayOperations.createThought()).then(() => {
-                history.push("/");
+                if (dateForNav) {
+                    history.push("/day/" + dateForNav);
+                } else {
+                    history.goBack();
+                }
             });
         }
     };
