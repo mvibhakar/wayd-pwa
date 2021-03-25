@@ -25,6 +25,7 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
 
     db.collection("listItems")
         .where("uid", "==", cuserId)
+        .orderBy("order")
         .onSnapshot((querySnapshot) => {
             let listItems = Array.from(
                 new Set(

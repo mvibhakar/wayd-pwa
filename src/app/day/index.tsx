@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { S3Key } from "../../utils";
 import { useSelectFromRedux } from "../../utils/hooks";
+import { useDispatch } from "react-redux";
 
 // components
 import { ContentText } from "../../utils/ui-library";
@@ -20,11 +21,13 @@ import {
 } from "../_shared/styled";
 import { TaskTextContainer, TaskTimeContainer } from "./styled";
 import firebase from "../../utils/firebase";
+import { dayOperations } from "../../state/day";
 
 var moment = require("moment");
 
 export const Day = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const path = window.location.pathname;
     const rawDate = path.slice(-10);
     const formattedDate = moment(new Date(rawDate));
@@ -50,7 +53,7 @@ export const Day = () => {
         } else if (moment(formattedDate).isSame(tomorrow, "day")) {
             return "tomorrow";
         } else {
-            return formattedDate.format("MMM Do");
+            return formattedDate.format("MMMM Do");
         }
     };
 
@@ -137,11 +140,15 @@ export const Day = () => {
                         filteredTasks.length > 0 &&
                         filteredTasks.map((task: any) => (
                             <ContentItemContainer key={task.id}>
-                                {task.checked ? (
-                                    <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
-                                ) : (
-                                    <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
-                                )}
+                                <ListItemIcon
+                                    src={
+                                        task.checked
+                                            ? S3Key + "rect-checked-blue.png"
+                                            : S3Key + "rect-unchecked-grey.png"
+                                    }
+                                    alt={task.checked ? "checked" : "unchecked"}
+                                    onClick={() => dispatch(dayOperations.updateTaskChecked(task.id, task.checked))}
+                                />
                                 <ListItemText>{task.content}</ListItemText>
                             </ContentItemContainer>
                         ))}

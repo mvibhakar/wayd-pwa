@@ -73,3 +73,24 @@ export const createNote: PromiseOperation<void> = (noteTitle, noteContent) => as
             });
     }
 };
+
+export const updateListItemChecked: PromiseOperation<void> = (
+    docId: string,
+    previouslyChecked: boolean
+) => async () => {
+    const db = firebase.firestore();
+
+    const listItemObject = {
+        checked: !previouslyChecked,
+    };
+
+    db.collection("listItems")
+        .doc(docId)
+        .update(listItemObject)
+        .then(() => {
+            // dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
