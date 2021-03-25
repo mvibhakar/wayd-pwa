@@ -26,6 +26,7 @@ export const createList: PromiseOperation<void> = (listTitle, listItems) => asyn
             .then(() => {
                 listItems.forEach((item: any) => {
                     let listItemObject: any = {
+                        uid: cuserId,
                         list_id: cuserId + formattedCurrentDateTime,
                         content: item.value,
                         order: item.order,

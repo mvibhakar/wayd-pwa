@@ -1,9 +1,16 @@
+import { AntAnchor } from "antd/lib/anchor/Anchor";
 import { produce } from "immer";
 import { payloadAction, actionFactory, ActionUnion, simpleAction } from "reductser";
-// import * as teamsOperations from "./operations";
+import * as cuserOperations from "./operations";
 
 const actionMap = {
     updateCuserId: payloadAction<string | null>(),
+    updateEvents: payloadAction<any | null>(),
+    updateListItems: payloadAction<any | null>(),
+    updateLists: payloadAction<any | null>(),
+    updateNotes: payloadAction<any | null>(),
+    updateTasks: payloadAction<any | null>(),
+    updateThoughts: payloadAction<any | null>(),
 };
 
 export const cuserActions = actionFactory(actionMap, "CUSER");
@@ -14,10 +21,22 @@ export type CuserAction = ActionUnion<typeof cuserActions>;
 
 export interface CuserState {
     cuserId: string | null;
+    events: any;
+    listItems: any;
+    lists: any;
+    notes: any;
+    tasks: any;
+    thoughts: any;
 }
 
 export const getInitialState = (): CuserState => ({
     cuserId: null,
+    events: null,
+    listItems: null,
+    lists: null,
+    notes: null,
+    tasks: null,
+    thoughts: null,
 });
 
 const cuserReducer = (state = getInitialState(), action: CuserAction) =>
@@ -27,6 +46,24 @@ const cuserReducer = (state = getInitialState(), action: CuserAction) =>
                 case "updateCuserId":
                     draftState.cuserId = action.payload;
                     break;
+                case "updateEvents":
+                    draftState.events = action.payload;
+                    break;
+                case "updateListItems":
+                    draftState.listItems = action.payload;
+                    break;
+                case "updateLists":
+                    draftState.lists = action.payload;
+                    break;
+                case "updateNotes":
+                    draftState.notes = action.payload;
+                    break;
+                case "updateTasks":
+                    draftState.tasks = action.payload;
+                    break;
+                case "updateThoughts":
+                    draftState.thoughts = action.payload;
+                    break;
                 default:
                     break;
                 // unreachableCode(action);
@@ -34,5 +71,5 @@ const cuserReducer = (state = getInitialState(), action: CuserAction) =>
         }
     });
 
-// export { teamsOperations };
+export { cuserOperations };
 export default cuserReducer;

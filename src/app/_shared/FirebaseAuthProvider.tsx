@@ -3,7 +3,7 @@ import React, { createContext, FunctionComponent, useContext, useEffect, useStat
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelectFromRedux } from "../../utils/hooks";
-import { cuserActions } from "../../state/cuser";
+import { cuserActions, cuserOperations } from "../../state/cuser";
 
 interface AuthContext {
     user: firebase.User | null | undefined;
@@ -33,6 +33,7 @@ export const FirebaseAuthProvider: FunctionComponent = ({ children }) => {
             if (fbUser) {
                 setUser(fbUser);
                 dispatch(cuserActions.updateCuserId(fbUser.uid));
+                dispatch(cuserOperations.loadData(fbUser.uid));
             } else {
                 setUser(null);
                 dispatch(cuserActions.updateCuserId(null));

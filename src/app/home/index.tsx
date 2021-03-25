@@ -17,6 +17,7 @@ export default () => {
     const requireAuth = useRequireAuth();
     const db = firebase.firestore();
     const history = useHistory();
+    const { cuserId } = useSelectFromRedux((state) => state.cuser);
 
     const onDayClick = (value: Date) => {
         const momentDate = moment(value).format("MM-DD-YYYY");
@@ -37,29 +38,30 @@ export default () => {
 
     console.log(requireAuth);
 
-    useEffect(() => {
-        db.collection("events")
-            .get()
-            .then((querySnapshot) => {
-                // console.log(querySnapshot.docs.map((d) => d.data()));
-                let events = Array.from(
-                    new Set(
-                        querySnapshot.docs.map((d: any) => ({
-                            id: d.id,
-                            ...d.data(),
-                        }))
-                    )
-                );
-                // console.log(events);
-                // querySnapshot.forEach((doc) => {
-                //     // doc.data() is never undefined for query doc snapshots
-                //     console.log(doc.id, doc.data());
-                // });
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
-    }, []);
+    // useEffect(() => {
+    // db.collection("events")
+    //     .where("uid", "==", cuserId)
+    //     .get()
+    //     .then((querySnapshot) => {
+    //         // console.log(querySnapshot.docs.map((d) => d.data()));
+    //         let events = Array.from(
+    //             new Set(
+    //                 querySnapshot.docs.map((d: any) => ({
+    //                     id: d.id,
+    //                     ...d.data(),
+    //                 }))
+    //             )
+    //         );
+    //         console.log(events);
+    //         // querySnapshot.forEach((doc) => {
+    //         //     // doc.data() is never undefined for query doc snapshots
+    //         //     console.log(doc.id, doc.data());
+    //         // });
+    //     })
+    //     .catch((error) => {
+    //         console.log("Error getting documents: ", error);
+    //     });
+    // }, []);
 
     if (!requireAuth.user) {
         return <div style={{ height: "500px", width: "500px", background: "purple" }} />;
