@@ -130,3 +130,21 @@ export const updateTaskChecked: PromiseOperation<void> = (docId: string, previou
             console.error("Error writing document: ", error);
         });
 };
+
+export const updateHabitChecked: PromiseOperation<void> = (docId: string, previouslyChecked: boolean) => async () => {
+    const db = firebase.firestore();
+
+    const habitObject = {
+        checked: !previouslyChecked,
+    };
+
+    db.collection("habits")
+        .doc(docId)
+        .update(habitObject)
+        .then(() => {
+            // dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};

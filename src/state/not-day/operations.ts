@@ -84,7 +84,7 @@ export const createHabit: PromiseOperation<void> = (habitContent) => async (disp
     const newHabits = habitsCopy.concat(habitContent);
 
     const habitsArrayObject: any = {
-        habits: newHabits,
+        habits_array: newHabits,
     };
 
     if (cuserId) {

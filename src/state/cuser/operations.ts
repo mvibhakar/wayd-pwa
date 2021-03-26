@@ -110,6 +110,7 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
     db.collection("habits")
         .where("uid", "==", cuserId)
         .orderBy("streak", "desc")
+        .orderBy("content")
         .onSnapshot((querySnapshot) => {
             let habits = Array.from(
                 new Set(
@@ -146,8 +147,9 @@ export const createTodaysHabits: PromiseOperation<void> = () => async (dispatch,
                 habits
                     .filter((habit: any) => habit.content === habit_string)
                     .filter((habit: any) => moment(habit.datetime.toDate()).isSame(yesterday, "day"));
+            console.log(yesterdaysHabit);
             let yesterdaysStreak = 0;
-            if (yesterdaysHabit && yesterdaysHabit.length > 0) {
+            if (yesterdaysHabit && yesterdaysHabit.length > 0 && yesterdaysHabit[0].checked === true) {
                 yesterdaysStreak = yesterdaysHabit[0].streak + 1;
             }
 

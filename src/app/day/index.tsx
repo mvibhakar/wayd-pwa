@@ -32,7 +32,9 @@ export const Day = () => {
     const path = window.location.pathname;
     const rawDate = path.slice(-10);
     const formattedDate = moment(new Date(rawDate));
+    const current = moment();
     const { events, tasks, habits, thoughts } = useSelectFromRedux((state) => state.cuser);
+    const { habits_array } = useSelectFromRedux((state) => state.cuser.userProfile);
     const filteredEvents =
         events && events.filter((event: any) => moment(event.start_datetime.toDate()).isSame(formattedDate, "day"));
     const filteredTasks =
@@ -44,7 +46,7 @@ export const Day = () => {
 
     useEffect(() => {
         dispatch(cuserOperations.createTodaysHabits());
-    }, []);
+    }, [habits_array]);
 
     const getHeaderString = () => {
         const current = moment();
@@ -151,7 +153,10 @@ export const Day = () => {
                                             : S3Key + "round-unchecked-grey.png"
                                     }
                                     alt={habit.checked ? "checked" : "unchecked"}
-                                    // onClick={() => dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked))}
+                                    onClick={() => {
+                                        if (moment(formattedDate).isSame(current, "day"))
+                                            dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked));
+                                    }}
                                 />
                                 <HabitListItemText>
                                     <div>{habit.content}</div>
