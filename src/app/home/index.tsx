@@ -21,7 +21,6 @@ export default () => {
     const db = firebase.firestore();
     const history = useHistory();
     const { cuserId, habits } = useSelectFromRedux((state) => state.cuser);
-    console.log(habits);
 
     const onDayClick = (value: Date) => {
         // const momentDate = moment(value).format("MM-DD-YYYY");
@@ -40,8 +39,6 @@ export default () => {
             return <img src={S3Key + "right-arrow-grey.png"} alt="right-arrow" width="18px" />;
         }
     };
-
-    console.log(requireAuth);
 
     // useEffect(() => {
     // db.collection("events")

@@ -43,6 +43,15 @@ export const Day = () => {
         habits && habits.filter((habit: any) => moment(habit.datetime.toDate()).isSame(formattedDate, "day"));
     const filteredThoughts =
         thoughts && thoughts.filter((thought: any) => moment(thought.datetime.toDate()).isSame(formattedDate, "day"));
+    const noData =
+        filteredEvents &&
+        filteredEvents.length === 0 &&
+        filteredTasks &&
+        filteredTasks.length === 0 &&
+        filteredHabits &&
+        filteredHabits.length === 0 &&
+        filteredThoughts &&
+        filteredThoughts.length === 0;
 
     useEffect(() => {
         dispatch(cuserOperations.createTodaysHabits());
@@ -108,74 +117,93 @@ export const Day = () => {
                 rightSideRightIconAction={goToNextDay}
             />
             <Content>
-                <Card>
-                    <CardHeader>schedule</CardHeader>
-                    {filteredEvents &&
-                        filteredEvents.length > 0 &&
-                        filteredEvents.map((event: any) => (
-                            <ContentItemContainer event={true} key={event.id}>
-                                <TaskTimeContainer>
-                                    {getStartEndTimeString(event.start_datetime, event.end_datetime, event.is_allday)}
-                                </TaskTimeContainer>
-                                <TaskTextContainer>{event.content}</TaskTextContainer>
-                            </ContentItemContainer>
-                        ))}
-                </Card>
-                <Card>
-                    <CardHeader>to-do</CardHeader>
-                    {filteredTasks &&
-                        filteredTasks.length > 0 &&
-                        filteredTasks.map((task: any) => (
-                            <ContentItemContainer key={task.id}>
-                                <ListItemIcon
-                                    src={
-                                        task.checked
-                                            ? S3Key + "rect-checked-blue.png"
-                                            : S3Key + "rect-unchecked-grey.png"
-                                    }
-                                    alt={task.checked ? "checked" : "unchecked"}
-                                    onClick={() => dispatch(dayOperations.updateTaskChecked(task.id, task.checked))}
-                                />
-                                <ListItemText>{task.content}</ListItemText>
-                            </ContentItemContainer>
-                        ))}
-                </Card>
-                <Card>
-                    <CardHeader>habits</CardHeader>
-                    {filteredHabits &&
-                        filteredHabits.length > 0 &&
-                        filteredHabits.map((habit: any) => (
-                            <ContentItemContainer key={habit.id}>
-                                <ListItemIcon
-                                    src={
-                                        habit.checked
-                                            ? S3Key + "round-checked-orange.png"
-                                            : S3Key + "round-unchecked-grey.png"
-                                    }
-                                    alt={habit.checked ? "checked" : "unchecked"}
-                                    onClick={() => {
-                                        if (moment(formattedDate).isSame(current, "day"))
-                                            dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked));
-                                    }}
-                                />
-                                <HabitListItemText>
-                                    <div>{habit.content}</div>
-                                    <StreakContainer streak={habit.streak > 0 ? true : false}>
-                                        <div>{habit.streak}</div>
-                                        <img
-                                            src={
-                                                habit.streak > 0
-                                                    ? S3Key + "streak-orange.png"
-                                                    : S3Key + "streak-grey.png"
-                                            }
-                                            alt={habit.streak > 0 ? "streak" : "no-streak"}
-                                            width="20px"
-                                        />
-                                    </StreakContainer>
-                                </HabitListItemText>
-                            </ContentItemContainer>
-                        ))}
-                </Card>
+                {noData && (
+                    <Card style={{ background: "transparent", filter: "none" }}>
+                        <ContentText
+                            style={{ textTransform: "none", width: "100%", display: "flex", justifyContent: "center" }}
+                        >
+                            You have the day off!
+                        </ContentText>
+                    </Card>
+                )}
+                {filteredEvents && filteredEvents.length > 0 && (
+                    <Card>
+                        <CardHeader>schedule</CardHeader>
+                        {filteredEvents &&
+                            filteredEvents.length > 0 &&
+                            filteredEvents.map((event: any) => (
+                                <ContentItemContainer event={true} key={event.id}>
+                                    <TaskTimeContainer>
+                                        {getStartEndTimeString(
+                                            event.start_datetime,
+                                            event.end_datetime,
+                                            event.is_allday
+                                        )}
+                                    </TaskTimeContainer>
+                                    <TaskTextContainer>{event.content}</TaskTextContainer>
+                                </ContentItemContainer>
+                            ))}
+                    </Card>
+                )}
+                {filteredTasks && filteredTasks.length > 0 && (
+                    <Card>
+                        <CardHeader>to-do</CardHeader>
+                        {filteredTasks &&
+                            filteredTasks.length > 0 &&
+                            filteredTasks.map((task: any) => (
+                                <ContentItemContainer key={task.id}>
+                                    <ListItemIcon
+                                        src={
+                                            task.checked
+                                                ? S3Key + "rect-checked-blue.png"
+                                                : S3Key + "rect-unchecked-grey.png"
+                                        }
+                                        alt={task.checked ? "checked" : "unchecked"}
+                                        onClick={() => dispatch(dayOperations.updateTaskChecked(task.id, task.checked))}
+                                    />
+                                    <ListItemText>{task.content}</ListItemText>
+                                </ContentItemContainer>
+                            ))}
+                    </Card>
+                )}
+                {filteredHabits && filteredHabits.length > 0 && (
+                    <Card>
+                        <CardHeader>habits</CardHeader>
+                        {filteredHabits &&
+                            filteredHabits.length > 0 &&
+                            filteredHabits.map((habit: any) => (
+                                <ContentItemContainer key={habit.id}>
+                                    <ListItemIcon
+                                        src={
+                                            habit.checked
+                                                ? S3Key + "round-checked-orange.png"
+                                                : S3Key + "round-unchecked-grey.png"
+                                        }
+                                        alt={habit.checked ? "checked" : "unchecked"}
+                                        onClick={() => {
+                                            if (moment(formattedDate).isSame(current, "day"))
+                                                dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked));
+                                        }}
+                                    />
+                                    <HabitListItemText>
+                                        <div>{habit.content}</div>
+                                        <StreakContainer streak={habit.streak > 0 ? true : false}>
+                                            <div>{habit.streak}</div>
+                                            <img
+                                                src={
+                                                    habit.streak > 0
+                                                        ? S3Key + "streak-orange.png"
+                                                        : S3Key + "streak-grey.png"
+                                                }
+                                                alt={habit.streak > 0 ? "streak" : "no-streak"}
+                                                width="20px"
+                                            />
+                                        </StreakContainer>
+                                    </HabitListItemText>
+                                </ContentItemContainer>
+                            ))}
+                    </Card>
+                )}
                 {filteredThoughts && filteredThoughts.length > 0 && (
                     <Card style={{ marginBottom: "0px" }}>
                         <CardHeader style={{ marginBottom: "10px" }}>thoughts</CardHeader>
