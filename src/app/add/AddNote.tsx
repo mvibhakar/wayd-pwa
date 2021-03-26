@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { notDayOperations } from "../../state/not-day";
-import { useDispatchPromise } from "../../utils/hooks";
+import { notDayActions, notDayOperations } from "../../state/not-day";
+import { useDispatchPromise, useSelectFromRedux } from "../../utils/hooks";
 
 // components
 import { ExpandingTextAreaWithBottomBorder, TextInputWithBottomBorder } from "../../utils/ui-library";
@@ -11,18 +12,35 @@ import { FormSection } from "./styled";
 
 export const AddNote = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const dispatchPromise = useDispatchPromise();
-    const [noteTitle, updateNoteTitle] = useState<string>("");
-    const [noteContent, updateNoteContent] = useState<string>("");
+    const { addNoteId, addNoteTitle, addNoteContent } = useSelectFromRedux((state) => state.notDay);
+    const [noteTitle, updateNoteTitle] = useState<string>(addNoteTitle);
+    const [noteContent, updateNoteContent] = useState<string>(addNoteContent);
 
     const backIconAction = () => {
         history.goBack();
+        dispatch(notDayActions.updateAddNoteId(""));
     };
 
+    if (addNoteId) {
+        console.log(true);
+    } else {
+        console.log(false);
+    }
+
     const submit = () => {
-        dispatchPromise(notDayOperations.createNote(noteTitle, noteContent)).then(() => {
-            history.push("/notes");
-        });
+        if (addNoteId) {
+            dispatchPromise(notDayOperations.updateNote(addNoteId, noteTitle, noteContent)).then(() => {
+                history.push("/notes");
+            });
+        } else {
+            dispatchPromise(notDayOperations.createNote(noteTitle, noteContent)).then(() => {
+                history.push("/notes");
+            });
+        }
+
+        dispatch(notDayActions.updateAddNoteId(""));
     };
 
     return (

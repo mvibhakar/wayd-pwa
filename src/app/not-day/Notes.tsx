@@ -2,14 +2,17 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { S3Key } from "../../utils";
 import { useSelectFromRedux } from "../../utils/hooks";
+import { useDispatch } from "react-redux";
 
 // components
 import { ContentText } from "../../utils/ui-library";
 import { Header } from "../_shared/Header";
 import { AppContainer, Content, FAB, Card, CardHeader } from "../_shared/styled";
+import { notDayActions } from "../../state/not-day";
 
 export const Notes = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const { notes } = useSelectFromRedux((state) => state.cuser);
 
     const homeIconAction = () => {
@@ -20,13 +23,20 @@ export const Notes = () => {
         history.push("/add-note");
     };
 
+    const updateNote = (noteId: string, noteTitle: string, noteContent: string) => {
+        dispatch(notDayActions.updateAddNoteId(noteId));
+        dispatch(notDayActions.updateAddNoteTitle(noteTitle));
+        dispatch(notDayActions.updateAddNoteContent(noteContent));
+        history.push("/add-note");
+    };
+
     return (
         <AppContainer>
             <Header title="my notes" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
             <Content>
                 {notes &&
                     notes.map((note: any) => (
-                        <Card key={note.id}>
+                        <Card key={note.id} onClick={() => updateNote(note.id, note.title, note.content)}>
                             <CardHeader style={{ marginBottom: "10px" }}>{note.title}</CardHeader>
                             <ContentText style={{ whiteSpace: "pre-line" }}>{note.content}</ContentText>
                         </Card>

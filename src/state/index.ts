@@ -4,19 +4,22 @@ import { ActionCreator } from "redux";
 // import { default as someOtherModel, SomeOtherModelState, SomeOtherModelAction } from "./some-other-model";
 import { default as cuser, CuserState, CuserAction } from "./cuser";
 import { default as day, DayState, DayAction } from "./day";
+import { default as notDay, NotDayState, NotDayAction } from "./not-day";
 
-export type CustomAction = CuserAction | DayAction;
+export type CustomAction = CuserAction | DayAction | NotDayAction;
 // | WhateverAction
 
 export interface AppState {
     // someOtherModel: SomeOtherModelState;
     cuser: CuserState;
     day: DayState;
+    notDay: NotDayState;
 }
 
 const appReducer = Redux.combineReducers({
     cuser,
     day,
+    notDay,
 });
 
 export const rootReducer = (state: any, action: any) => {

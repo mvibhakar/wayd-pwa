@@ -74,6 +74,25 @@ export const createNote: PromiseOperation<void> = (noteTitle, noteContent) => as
     }
 };
 
+export const updateNote: PromiseOperation<void> = (docId, noteTitle, noteContent) => async () => {
+    const db = firebase.firestore();
+
+    const noteUpdateObject: any = {
+        title: noteTitle,
+        content: noteContent,
+    };
+
+    db.collection("notes")
+        .doc(docId)
+        .update(noteUpdateObject)
+        .then(() => {
+            // dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
 export const createHabit: PromiseOperation<void> = (habitContent) => async (dispatch, getState) => {
     const state = getState();
     const db = firebase.firestore();
