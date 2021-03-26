@@ -1,10 +1,21 @@
-import { cuserActions } from ".";
+import { cuserActions, cuserOperations } from ".";
 // import { dayActions } from ".";
 import { PromiseOperation } from "..";
 import firebase from "../../utils/firebase";
+var moment = require("moment");
 
 export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, getState) => {
     const db = firebase.firestore();
+
+    db.collection("users")
+        .where("uid", "==", cuserId)
+        .onSnapshot((querySnapshot) => {
+            let user = querySnapshot.docs.map((d: any) => ({
+                id: d.id,
+                ...d.data(),
+            }));
+            dispatch(cuserActions.updateUserProfile(user[0]));
+        });
 
     db.collection("events")
         .where("uid", "==", cuserId)
@@ -95,4 +106,61 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
             );
             dispatch(cuserActions.updateThoughts(thoughts));
         });
+
+    db.collection("habits")
+        .where("uid", "==", cuserId)
+        .onSnapshot((querySnapshot) => {
+            let habits = Array.from(
+                new Set(
+                    querySnapshot.docs.map((d: any) => ({
+                        id: d.id,
+                        ...d.data(),
+                    }))
+                )
+            );
+            dispatch(cuserActions.updateHabits(habits));
+        });
+
+    dispatch(cuserOperations.createTodaysHabits());
+};
+
+export const createTodaysHabits: PromiseOperation<void> = () => async (dispatch, getState) => {
+    const db = firebase.firestore();
+    const state = getState();
+    const current = moment();
+
+    const { cuserId } = state.cuser;
+    const habitsArray = state.cuser.userProfile.habits_array;
+    const { habits } = state.cuser;
+    const formattedCurrentDateTime = new firebase.firestore.Timestamp(
+        Math.floor(Date.parse(moment().toString()) / 1000),
+        0
+    );
+
+    if (habitsArray && habitsArray.length > 0) {
+        habitsArray.forEach((habit_string: any) => {
+            if (
+                habits
+                    .filter((habit: any) => habit.content === habit_string)
+                    .filter((habit: any) => moment(habit.datetime.toDate()).isSame(current, "day")).length === 0
+            ) {
+                const habitObject: any = {
+                    uid: cuserId,
+                    content: habit_string,
+                    datetime: formattedCurrentDateTime,
+                    checked: false,
+                    streak: 0,
+                };
+
+                if (cuserId) {
+                    db.collection("habits")
+                        .doc()
+                        .set(habitObject)
+                        .catch((error) => {
+                            console.error("Error writing document: ", error);
+                        });
+                }
+            }
+        });
+    }
 };

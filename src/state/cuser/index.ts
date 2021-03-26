@@ -11,6 +11,8 @@ const actionMap = {
     updateNotes: payloadAction<any | null>(),
     updateTasks: payloadAction<any | null>(),
     updateThoughts: payloadAction<any | null>(),
+    updateHabits: payloadAction<any | null>(),
+    updateUserProfile: payloadAction<any | null>(),
 };
 
 export const cuserActions = actionFactory(actionMap, "CUSER");
@@ -27,6 +29,13 @@ export interface CuserState {
     notes: any;
     tasks: any;
     thoughts: any;
+    habits: any;
+    userProfile: {
+        email: any;
+        habits_array: any;
+        uid: any;
+        userPreferences: any;
+    };
 }
 
 export const getInitialState = (): CuserState => ({
@@ -37,6 +46,13 @@ export const getInitialState = (): CuserState => ({
     notes: null,
     tasks: null,
     thoughts: null,
+    habits: null,
+    userProfile: {
+        email: null,
+        habits_array: null,
+        uid: null,
+        userPreferences: null,
+    },
 });
 
 const cuserReducer = (state = getInitialState(), action: CuserAction) =>
@@ -63,6 +79,12 @@ const cuserReducer = (state = getInitialState(), action: CuserAction) =>
                     break;
                 case "updateThoughts":
                     draftState.thoughts = action.payload;
+                    break;
+                case "updateHabits":
+                    draftState.habits = action.payload;
+                    break;
+                case "updateUserProfile":
+                    draftState.userProfile = action.payload;
                     break;
                 default:
                     break;

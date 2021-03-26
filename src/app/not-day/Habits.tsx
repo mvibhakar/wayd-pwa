@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { S3Key } from "../../utils";
+import { useSelectFromRedux } from "../../utils/hooks";
 
 // components
 import { FormSection } from "../add/styled";
@@ -17,6 +18,7 @@ import {
 
 export const Habits = () => {
     const history = useHistory();
+    const { habits_array } = useSelectFromRedux((state) => state.cuser.userProfile);
 
     const homeIconAction = () => {
         history.push("/");
@@ -30,7 +32,23 @@ export const Habits = () => {
         <AppContainer>
             <Header title="my habits" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
             <Content style={{ padding: "0px 40px 40px" }}>
-                <FormSection>
+                {habits_array &&
+                    habits_array.length > 0 &&
+                    habits_array.map((habit: any) => (
+                        <FormSection>
+                            <ContentItemContainer>
+                                <ListItemIcon src={S3Key + "round-checked-orange.png"} alt="checked" />
+                                <HabitListItemText>
+                                    <div>{habit}</div>
+                                    <StreakContainer streak={true}>
+                                        <div>7</div>
+                                        <img src={S3Key + "streak-orange.png"} alt="streak" width="20px" />
+                                    </StreakContainer>
+                                </HabitListItemText>
+                            </ContentItemContainer>
+                        </FormSection>
+                    ))}
+                {/* <FormSection>
                     <ContentItemContainer>
                         <ListItemIcon src={S3Key + "round-checked-orange.png"} alt="checked" />
                         <HabitListItemText>
@@ -65,7 +83,7 @@ export const Habits = () => {
                             </StreakContainer>
                         </HabitListItemText>
                     </ContentItemContainer>
-                </FormSection>
+                </FormSection> */}
             </Content>
             <FAB>
                 <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />

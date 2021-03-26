@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { S3Key } from "../../utils";
 import { useSelectFromRedux } from "../../utils/hooks";
@@ -22,6 +22,7 @@ import {
 import { TaskTextContainer, TaskTimeContainer } from "./styled";
 import firebase from "../../utils/firebase";
 import { dayOperations } from "../../state/day";
+import { cuserOperations } from "../../state/cuser";
 
 var moment = require("moment");
 
@@ -40,6 +41,10 @@ export const Day = () => {
         thoughts && thoughts.filter((thought: any) => moment(thought.datetime.toDate()).isSame(formattedDate, "day"));
 
     console.log(filteredTasks);
+
+    useEffect(() => {
+        dispatch(cuserOperations.createTodaysHabits());
+    }, []);
 
     const getHeaderString = () => {
         const current = moment();

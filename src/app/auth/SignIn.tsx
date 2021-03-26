@@ -19,23 +19,31 @@ export default () => {
     const submit = () => {
         firebase
             .auth()
-            .createUserWithEmailAndPassword(email, password)
+            .signInWithEmailAndPassword(email, password)
             .then((userCredential: any) => {
                 var user = userCredential.user;
                 console.log(user);
                 dispatch(cuserActions.updateCuserId(user.uid));
-                db.collection("users")
-                    .doc()
-                    .set({
-                        email: user.email,
-                        uid: user.uid,
-                    })
-                    .then(() => {
-                        history.push("/");
-                    })
-                    .catch((error) => {
-                        console.error("Error writing document: ", error);
-                    });
+                history.push("/");
+                // db.collection("users")
+                //     .doc(user.uid)
+                //     .set({
+                //         email: user.email,
+                //         uid: user.uid,
+                //         userPreferences: {
+                //             is_events: true,
+                //             is_tasks: true,
+                //             is_habits: true,
+                //             is_thoughts: true,
+                //         },
+                //         habits_array: [],
+                //     })
+                //     .then(() => {
+                //         history.push("/");
+                //     })
+                //     .catch((error) => {
+                //         console.error("Error writing document: ", error);
+                //     });
             })
             .catch((error: any) => {
                 var errorCode = error.code;

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "react-calendar/dist/Calendar.css";
 import { S3Key } from "../../utils";
 import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 // components
 import { Header } from "../_shared/Header";
@@ -11,9 +12,11 @@ import { FAB, Content, AppContainer } from "../_shared/styled";
 import firebase from "../../utils/firebase";
 import { useSelectFromRedux } from "../../utils/hooks";
 import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
+import { cuserOperations } from "../../state/cuser";
 var moment = require("moment");
 
 export default () => {
+    const dispatch = useDispatch();
     const requireAuth = useRequireAuth();
     const db = firebase.firestore();
     const history = useHistory();
@@ -63,12 +66,16 @@ export default () => {
     //     });
     // }, []);
 
+    // useEffect(() => {
+    //     dispatch(cuserOperations.createTodaysHabits());
+    // }, []);
+
     if (!requireAuth.user) {
         return <div style={{ height: "500px", width: "500px", background: "purple" }} />;
     } else {
         return (
             <AppContainer>
-                <Header title="wayd" leftSideIcon="user-grey" />
+                <Header title="wayd" leftSideIcon="user-grey" leftSideIconAction={requireAuth.logout} />
                 <Content>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <Calendar

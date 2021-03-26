@@ -74,6 +74,29 @@ export const createNote: PromiseOperation<void> = (noteTitle, noteContent) => as
     }
 };
 
+export const createHabit: PromiseOperation<void> = (habitContent) => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+    const { cuserId } = state.cuser;
+    const { habits_array } = state.cuser.userProfile;
+
+    const habitsCopy = [...habits_array];
+    const newHabits = habitsCopy.concat(habitContent);
+
+    const habitsArrayObject: any = {
+        habits: newHabits,
+    };
+
+    if (cuserId) {
+        db.collection("users")
+            .doc(cuserId)
+            .update(habitsArrayObject)
+            .catch((error: any) => {
+                console.error("Error writing document: ", error);
+            });
+    }
+};
+
 export const updateListItemChecked: PromiseOperation<void> = (
     docId: string,
     previouslyChecked: boolean
