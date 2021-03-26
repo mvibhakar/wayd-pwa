@@ -109,6 +109,7 @@ export const loadData: PromiseOperation<void> = (cuserId) => async (dispatch, ge
 
     db.collection("habits")
         .where("uid", "==", cuserId)
+        .orderBy("streak", "desc")
         .onSnapshot((querySnapshot) => {
             let habits = Array.from(
                 new Set(
@@ -128,6 +129,7 @@ export const createTodaysHabits: PromiseOperation<void> = () => async (dispatch,
     const db = firebase.firestore();
     const state = getState();
     const current = moment();
+    const yesterday = moment().subtract(1, "days");
 
     const { cuserId } = state.cuser;
     const habitsArray = state.cuser.userProfile.habits_array;
@@ -139,7 +141,18 @@ export const createTodaysHabits: PromiseOperation<void> = () => async (dispatch,
 
     if (habitsArray && habitsArray.length > 0) {
         habitsArray.forEach((habit_string: any) => {
+            const yesterdaysHabit =
+                habits &&
+                habits
+                    .filter((habit: any) => habit.content === habit_string)
+                    .filter((habit: any) => moment(habit.datetime.toDate()).isSame(yesterday, "day"));
+            let yesterdaysStreak = 0;
+            if (yesterdaysHabit && yesterdaysHabit.length > 0) {
+                yesterdaysStreak = yesterdaysHabit[0].streak + 1;
+            }
+
             if (
+                habits &&
                 habits
                     .filter((habit: any) => habit.content === habit_string)
                     .filter((habit: any) => moment(habit.datetime.toDate()).isSame(current, "day")).length === 0
@@ -149,7 +162,7 @@ export const createTodaysHabits: PromiseOperation<void> = () => async (dispatch,
                     content: habit_string,
                     datetime: formattedCurrentDateTime,
                     checked: false,
-                    streak: 0,
+                    streak: yesterdaysStreak,
                 };
 
                 if (cuserId) {

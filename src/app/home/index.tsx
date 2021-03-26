@@ -20,10 +20,12 @@ export default () => {
     const requireAuth = useRequireAuth();
     const db = firebase.firestore();
     const history = useHistory();
-    const { cuserId } = useSelectFromRedux((state) => state.cuser);
+    const { cuserId, habits } = useSelectFromRedux((state) => state.cuser);
+    console.log(habits);
 
     const onDayClick = (value: Date) => {
-        const momentDate = moment(value).format("MM-DD-YYYY");
+        // const momentDate = moment(value).format("MM-DD-YYYY");
+        const momentDate = moment(value).toDate().toLocaleDateString("en-US");
         history.push("/day/" + momentDate);
     };
 

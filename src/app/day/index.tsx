@@ -32,15 +32,15 @@ export const Day = () => {
     const path = window.location.pathname;
     const rawDate = path.slice(-10);
     const formattedDate = moment(new Date(rawDate));
-    const { events, tasks, thoughts } = useSelectFromRedux((state) => state.cuser);
+    const { events, tasks, habits, thoughts } = useSelectFromRedux((state) => state.cuser);
     const filteredEvents =
         events && events.filter((event: any) => moment(event.start_datetime.toDate()).isSame(formattedDate, "day"));
     const filteredTasks =
         tasks && tasks.filter((task: any) => moment(task.datetime.toDate()).isSame(formattedDate, "day"));
+    const filteredHabits =
+        habits && habits.filter((habit: any) => moment(habit.datetime.toDate()).isSame(formattedDate, "day"));
     const filteredThoughts =
         thoughts && thoughts.filter((thought: any) => moment(thought.datetime.toDate()).isSame(formattedDate, "day"));
-
-    console.log(filteredTasks);
 
     useEffect(() => {
         dispatch(cuserOperations.createTodaysHabits());
@@ -67,12 +67,12 @@ export const Day = () => {
     };
 
     const goToPreviousDay = () => {
-        const previousDay = formattedDate.subtract(1, "days").format("MM-DD-YYYY");
+        const previousDay = formattedDate.subtract(1, "days").toDate().toLocaleDateString("en-US");
         history.push("/day/" + previousDay);
     };
 
     const goToNextDay = () => {
-        const nextDay = formattedDate.add(1, "days").format("MM-DD-YYYY");
+        const nextDay = formattedDate.add(1, "days").toDate().toLocaleDateString("en-US");
         history.push("/day/" + nextDay);
     };
 
@@ -108,16 +108,6 @@ export const Day = () => {
             <Content>
                 <Card>
                     <CardHeader>schedule</CardHeader>
-                    {/* <ContentItemContainer event={true}>
-                        <TaskTimeContainer>7:00am - 8:00am</TaskTimeContainer>
-                        <TaskTextContainer>Nullam nisl</TaskTextContainer>
-                    </ContentItemContainer>
-                    <ContentItemContainer event={true}>
-                        <TaskTimeContainer>All day</TaskTimeContainer>
-                        <TaskTextContainer>
-                            Vesti bulum ornare, nisl nec malesuada hendrerit, erat elit fringilla eros, in auctor lacus
-                        </TaskTextContainer>
-                    </ContentItemContainer> */}
                     {filteredEvents &&
                         filteredEvents.length > 0 &&
                         filteredEvents.map((event: any) => (
@@ -131,16 +121,6 @@ export const Day = () => {
                 </Card>
                 <Card>
                     <CardHeader>to-do</CardHeader>
-                    {/* <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-unchecked-grey.png"} alt="unchecked" />
-                        <ListItemText>
-                            esti bulum ornare, nisl nec malesuada hendrerit, erat elit fringilla
-                        </ListItemText>
-                    </ContentItemContainer>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "rect-checked-blue.png"} alt="checked" />
-                        <ListItemText>lobortis malesuada</ListItemText>
-                    </ContentItemContainer> */}
                     {filteredTasks &&
                         filteredTasks.length > 0 &&
                         filteredTasks.map((task: any) => (
@@ -160,50 +140,49 @@ export const Day = () => {
                 </Card>
                 <Card>
                     <CardHeader>habits</CardHeader>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "round-checked-orange.png"} alt="checked" />
-                        <HabitListItemText>
-                            <div>libero</div>
-                            <StreakContainer streak={true}>
-                                <div>7</div>
-                                <img src={S3Key + "streak-orange.png"} alt="streak" width="20px" />
-                            </StreakContainer>
-                        </HabitListItemText>
-                    </ContentItemContainer>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "round-unchecked-grey.png"} alt="unchecked" />
-                        <HabitListItemText>
-                            <div>erat vitae mattis erat vitae mattis erat vitae</div>
-                            <StreakContainer streak={true}>
-                                <div>13</div>
-                                <img src={S3Key + "streak-orange.png"} alt="streak" width="20px" />
-                            </StreakContainer>
-                        </HabitListItemText>
-                    </ContentItemContainer>
-                    <ContentItemContainer>
-                        <ListItemIcon src={S3Key + "round-unchecked-grey.png"} alt="unchecked" />
-                        <HabitListItemText>
-                            <div>vitae efficitur</div>
-                            <StreakContainer streak={false}>
-                                <div>0</div>
-                                <img src={S3Key + "streak-grey.png"} alt="streak" width="20px" />
-                            </StreakContainer>
-                        </HabitListItemText>
-                    </ContentItemContainer>
-                </Card>
-                <Card style={{ marginBottom: "0px" }}>
-                    <CardHeader style={{ marginBottom: "10px" }}>thoughts</CardHeader>
-                    {filteredThoughts &&
-                        filteredThoughts.length > 0 &&
-                        filteredThoughts.map((thought: any) => (
-                            <ContentText key={thought.id} style={{ whiteSpace: "pre-line" }}>
-                                {thought.content}
-                            </ContentText>
+                    {filteredHabits &&
+                        filteredHabits.length > 0 &&
+                        filteredHabits.map((habit: any) => (
+                            <ContentItemContainer key={habit.id}>
+                                <ListItemIcon
+                                    src={
+                                        habit.checked
+                                            ? S3Key + "round-checked-orange.png"
+                                            : S3Key + "round-unchecked-grey.png"
+                                    }
+                                    alt={habit.checked ? "checked" : "unchecked"}
+                                    // onClick={() => dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked))}
+                                />
+                                <HabitListItemText>
+                                    <div>{habit.content}</div>
+                                    <StreakContainer streak={habit.streak > 0 ? true : false}>
+                                        <div>{habit.streak}</div>
+                                        <img
+                                            src={
+                                                habit.streak > 0
+                                                    ? S3Key + "streak-orange.png"
+                                                    : S3Key + "streak-grey.png"
+                                            }
+                                            alt={habit.streak > 0 ? "streak" : "no-streak"}
+                                            width="20px"
+                                        />
+                                    </StreakContainer>
+                                </HabitListItemText>
+                            </ContentItemContainer>
                         ))}
-                    {filteredThoughts && filteredThoughts.length === 0 && (
-                        <ContentText>No thoughts for today!</ContentText>
-                    )}
                 </Card>
+                {filteredThoughts && filteredThoughts.length > 0 && (
+                    <Card style={{ marginBottom: "0px" }}>
+                        <CardHeader style={{ marginBottom: "10px" }}>thoughts</CardHeader>
+                        {filteredThoughts &&
+                            filteredThoughts.length > 0 &&
+                            filteredThoughts.map((thought: any) => (
+                                <ContentText key={thought.id} style={{ whiteSpace: "pre-line" }}>
+                                    {thought.content}
+                                </ContentText>
+                            ))}
+                    </Card>
+                )}
             </Content>
             <FAB>
                 <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />

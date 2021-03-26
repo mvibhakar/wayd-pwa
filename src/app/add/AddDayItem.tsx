@@ -15,7 +15,7 @@ export const AddDayItem = () => {
     const dispatchPromise = useDispatchPromise();
     const history = useHistory();
     const { addDayItemSetting, addDayItemDate } = useSelectFromRedux((state) => state.day);
-    const dateForNav = addDayItemDate ? addDayItemDate.format("MM-DD-YYYY") : null;
+    const dateForNav = addDayItemDate ? addDayItemDate.toDate().toLocaleDateString("en-US") : null;
 
     const backIconAction = () => {
         history.goBack();
