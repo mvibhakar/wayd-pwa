@@ -13,6 +13,7 @@ export const EventForm = () => {
     const dateFormat = "MMMM Do, YYYY";
     const timeFormat = "h:mm A";
     const currentDateForIsBefore = moment().format("YYYY-MM-DD");
+    // const remainder = 30 - (moment().minute() % 30);
     const {
         addDayItemContent,
         addDayItemDate,
@@ -20,6 +21,11 @@ export const EventForm = () => {
         addEventStartTime,
         addEventEndTime,
     } = useSelectFromRedux((state) => state.day);
+    // const [eventContent, updateEventContent] = useState<string>(addDayItemContent);
+    // const [eventDate, updateEventDate] = useState<moment.Moment>(addDayItemDate ?? moment());
+    // const [eventIsAllDay, updateEventIsAllDay] = useState<boolean>(addEventIsAllDay);
+    // const [eventStartTime, updateEventStartTime] = useState<moment.Moment>(addEventStartTime ?? moment().add(remainder, "minutes"));
+    // const [eventEndTime, updateEventEndTime] = useState<moment.Moment>(addEventEndTime ?? moment().add(remainder + 60, "minutes"));
 
     const changeStartTime = (value: Moment | null) => {
         if (value) {

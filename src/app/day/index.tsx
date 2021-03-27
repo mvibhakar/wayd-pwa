@@ -21,7 +21,7 @@ import {
 } from "../_shared/styled";
 import { TaskTextContainer, TaskTimeContainer } from "./styled";
 import firebase from "../../utils/firebase";
-import { dayOperations } from "../../state/day";
+import { dayActions, dayOperations } from "../../state/day";
 import { cuserOperations } from "../../state/cuser";
 
 var moment = require("moment");
@@ -105,6 +105,22 @@ export const Day = () => {
         }
     };
 
+    const updateEvent = (
+        eventId: string,
+        eventContent: string,
+        startDateTime: firebase.firestore.Timestamp,
+        endDateTime: firebase.firestore.Timestamp,
+        isAllday: boolean
+    ) => {
+        dispatch(dayActions.updateAddEventId(eventId));
+        dispatch(dayActions.updateAddDayItemContent(eventContent));
+        dispatch(dayActions.updateAddDayItemDate(moment(startDateTime.toDate())));
+        dispatch(dayActions.updateAddEventStartTime(moment(startDateTime.toDate())));
+        dispatch(dayActions.updateAddEventEndTime(moment(endDateTime.toDate())));
+        dispatch(dayActions.updateAddEventIsAllDay(isAllday));
+        history.push("/add-day-item");
+    };
+
     return (
         <AppContainer>
             <Header
@@ -132,7 +148,19 @@ export const Day = () => {
                         {filteredEvents &&
                             filteredEvents.length > 0 &&
                             filteredEvents.map((event: any) => (
-                                <ContentItemContainer event={true} key={event.id}>
+                                <ContentItemContainer
+                                    event={true}
+                                    key={event.id}
+                                    onClick={() =>
+                                        updateEvent(
+                                            event.id,
+                                            event.content,
+                                            event.start_datetime,
+                                            event.end_datetime,
+                                            event.is_allday
+                                        )
+                                    }
+                                >
                                     <TaskTimeContainer>
                                         {getStartEndTimeString(
                                             event.start_datetime,

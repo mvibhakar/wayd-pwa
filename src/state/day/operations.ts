@@ -42,14 +42,72 @@ export const createEvent: PromiseOperation<void> = () => async (dispatch, getSta
         end_datetime: formattedEndDateTime,
     };
 
-    // if (!addEventIsAllDay) {
-    //     eventObject.start_datetime = formattedStartDateTime;
-    //     eventObject.end_datetime = formattedEndDateTime;
-    // }
-
     db.collection("events")
         .doc()
         .set(eventObject)
+        .then(() => {
+            dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
+export const updateEvent: PromiseOperation<void> = () => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+
+    const {
+        addEventId,
+        addDayItemContent,
+        addDayItemDate,
+        addEventIsAllDay,
+        addEventStartTime,
+        addEventEndTime,
+    } = state.day;
+
+    const combinedStartDateTime = moment(
+        addDayItemDate?.format("DD/MM/YYYY") + " " + addEventStartTime?.format("HH:mm"),
+        "DD/MM/YYYY HH:mm"
+    ).toString();
+    const combinedEndDateTime = moment(
+        addDayItemDate?.format("DD/MM/YYYY") + " " + addEventEndTime?.format("HH:mm"),
+        "DD/MM/YYYY HH:mm"
+    ).toString();
+
+    let formattedStartDateTime = new firebase.firestore.Timestamp(
+        Math.floor(Date.parse(combinedStartDateTime) / 1000),
+        0
+    );
+    let formattedEndDateTime = new firebase.firestore.Timestamp(Math.floor(Date.parse(combinedEndDateTime) / 1000), 0);
+
+    let eventUpdateObject: any = {
+        content: addDayItemContent,
+        is_allday: addEventIsAllDay,
+        start_datetime: formattedStartDateTime,
+        end_datetime: formattedEndDateTime,
+    };
+
+    db.collection("events")
+        .doc(addEventId)
+        .update(eventUpdateObject)
+        .then(() => {
+            dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
+export const deleteEvent: PromiseOperation<void> = () => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+
+    const { addEventId } = state.day;
+
+    db.collection("events")
+        .doc(addEventId)
+        .delete()
         .then(() => {
             dispatch(dayActions.resetAddDayItem());
         })
@@ -123,9 +181,6 @@ export const updateTaskChecked: PromiseOperation<void> = (docId: string, previou
     db.collection("tasks")
         .doc(docId)
         .update(taskObject)
-        .then(() => {
-            // dispatch(dayActions.resetAddDayItem());
-        })
         .catch((error) => {
             console.error("Error writing document: ", error);
         });
@@ -141,9 +196,6 @@ export const updateHabitChecked: PromiseOperation<void> = (docId: string, previo
     db.collection("habits")
         .doc(docId)
         .update(habitObject)
-        .then(() => {
-            // dispatch(dayActions.resetAddDayItem());
-        })
         .catch((error) => {
             console.error("Error writing document: ", error);
         });
