@@ -18,6 +18,7 @@ import {
 } from "../_shared/styled";
 import { cuserOperations } from "../../state/cuser";
 import { dayOperations } from "../../state/day";
+import { notDayActions } from "../../state/not-day";
 var moment = require("moment");
 
 export const Habits = () => {
@@ -41,6 +42,15 @@ export const Habits = () => {
         dispatch(cuserOperations.createTodaysHabits());
     }, [habits_array]);
 
+    const updateHabit = (habitContent: string, habitStreak: number, habitChecked: boolean, docId: string) => {
+        dispatch(notDayActions.updateAddHabitContent(habitContent));
+        dispatch(notDayActions.updateAddHabitStreak(habitStreak));
+        dispatch(notDayActions.updateAddHabitChecked(habitChecked));
+        dispatch(notDayActions.updateAddHabitId(docId));
+        dispatch(notDayActions.updateAddHabitIndex(habits_array.indexOf(habitContent)));
+        history.push("/add-habit");
+    };
+
     return (
         <AppContainer>
             <Header title="my habits" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
@@ -59,7 +69,9 @@ export const Habits = () => {
                                     alt={habit.checked ? "checked" : "unchecked"}
                                     onClick={() => dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked))}
                                 />
-                                <HabitListItemText>
+                                <HabitListItemText
+                                    onClick={() => updateHabit(habit.content, habit.streak, habit.checked, habit.id)}
+                                >
                                     <div>{habit.content}</div>
                                     <StreakContainer streak={habit.streak > 0 ? true : false}>
                                         <div>{habit.streak}</div>

@@ -130,6 +130,90 @@ export const createHabit: PromiseOperation<void> = (habitContent) => async (disp
     }
 };
 
+export const updateHabit: PromiseOperation<void> = (habitContent) => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+    const { cuserId } = state.cuser;
+    const { habits_array } = state.cuser.userProfile;
+    const { addHabitId, addHabitIndex, addHabitStreak, addHabitChecked } = state.notDay;
+
+    const formattedCurrentDateTime = new firebase.firestore.Timestamp(
+        Math.floor(Date.parse(moment().toString()) / 1000),
+        0
+    );
+
+    const habitsCopy = [...habits_array];
+    habitsCopy[addHabitIndex] = habitContent;
+
+    const habitsArrayUpdateObject: any = {
+        habits_array: habitsCopy,
+    };
+
+    if (cuserId) {
+        db.collection("users")
+            .doc(cuserId)
+            .update(habitsArrayUpdateObject)
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+    }
+
+    const habitObject: any = {
+        uid: cuserId,
+        content: habitContent,
+        datetime: formattedCurrentDateTime,
+        checked: addHabitChecked,
+        streak: addHabitStreak,
+    };
+
+    if (cuserId) {
+        db.collection("habits")
+            .doc()
+            .set(habitObject)
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+    }
+
+    db.collection("habits")
+        .doc(addHabitId)
+        .delete()
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
+export const deleteHabit: PromiseOperation<void> = (habitContent) => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+    const { cuserId } = state.cuser;
+    const { habits_array } = state.cuser.userProfile;
+    const { addHabitId, addHabitIndex } = state.notDay;
+
+    const habitsCopy = [...habits_array];
+    habitsCopy.splice(addHabitIndex, 1);
+
+    const habitsArrayUpdateObject: any = {
+        habits_array: habitsCopy,
+    };
+
+    if (cuserId) {
+        db.collection("users")
+            .doc(cuserId)
+            .update(habitsArrayUpdateObject)
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+    }
+
+    db.collection("habits")
+        .doc(addHabitId)
+        .delete()
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
 export const updateListItemChecked: PromiseOperation<void> = (
     docId: string,
     previouslyChecked: boolean

@@ -1,38 +1,69 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { notDayOperations } from "../../state/not-day";
-import { useDispatchPromise } from "../../utils/hooks";
-
+import { notDayActions, notDayOperations } from "../../state/not-day";
+import { useDispatchPromise, useSelectFromRedux } from "../../utils/hooks";
+import { useDispatch } from "react-redux";
 // components
-import { TextInputWithBottomBorder } from "../../utils/ui-library";
+import { Popup, TextInputWithBottomBorder } from "../../utils/ui-library";
 import { Header } from "../_shared/Header";
 import { AppContainer, Content } from "../_shared/styled";
 import { FormSection } from "./styled";
 
 export const AddHabit = () => {
+    const dispatch = useDispatch();
     const dispatchPromise = useDispatchPromise();
     const history = useHistory();
-    const [habitContent, updateHabitContent] = useState<string>("");
+    const { addHabitContent } = useSelectFromRedux((state) => state.notDay);
+    const [habitContent, updateHabitContent] = useState<string>(addHabitContent);
+    const [isModalVisible, updateIsModalVisible] = useState<boolean>(false);
 
     const backIconAction = () => {
         history.goBack();
+        dispatch(notDayActions.resetAddHabit());
     };
 
     const submit = () => {
-        dispatchPromise(notDayOperations.createHabit(habitContent)).then(() => {
+        if (addHabitContent) {
+            dispatchPromise(notDayOperations.updateHabit(habitContent)).then(() => {
+                history.push("/habits");
+                dispatch(notDayActions.resetAddHabit());
+            });
+        } else {
+            dispatchPromise(notDayOperations.createHabit(habitContent)).then(() => {
+                history.push("/habits");
+                dispatch(notDayActions.resetAddHabit());
+            });
+        }
+    };
+
+    const deleteHabit = () => {
+        dispatchPromise(notDayOperations.deleteHabit()).then(() => {
             history.push("/habits");
+            dispatch(notDayActions.resetAddHabit());
         });
     };
 
     return (
         <AppContainer>
-            <Header
-                title=""
-                leftSideIcon="left-arrow-grey"
-                leftSideIconAction={backIconAction}
-                rightSideRightIcon="check-grey"
-                rightSideRightIconAction={submit}
-            />
+            {addHabitContent ? (
+                <Header
+                    title=""
+                    leftSideIcon="left-arrow-grey"
+                    leftSideIconAction={backIconAction}
+                    rightSideLeftIcon="check-grey"
+                    rightSideLeftIconAction={submit}
+                    rightSideRightIcon="delete-grey"
+                    rightSideRightIconAction={() => updateIsModalVisible(true)}
+                />
+            ) : (
+                <Header
+                    title=""
+                    leftSideIcon="left-arrow-grey"
+                    leftSideIconAction={backIconAction}
+                    rightSideRightIcon="check-grey"
+                    rightSideRightIconAction={submit}
+                />
+            )}
             <Content style={{ padding: "0 40px 40px" }}>
                 <FormSection>
                     <TextInputWithBottomBorder
@@ -43,6 +74,17 @@ export const AddHabit = () => {
                     />
                 </FormSection>
             </Content>
+            <Popup
+                visible={isModalVisible}
+                okText="Delete"
+                closable={false}
+                centered={true}
+                width={230}
+                onOk={deleteHabit}
+                onCancel={() => updateIsModalVisible(false)}
+            >
+                Delete this habit?
+            </Popup>
         </AppContainer>
     );
 };
