@@ -8,3 +8,16 @@ export const TaskTimeContainer = styled(TimeText)`
 export const TaskTextContainer = styled(ContentText)`
     width: 50%;
 `;
+
+export const ThoughtText = styled(ContentText)`
+    white-space: pre-line;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 0.5px solid rgba(82, 82, 82, 0.4);
+
+    &:last-child {
+        padding-bottom: 0px !important;
+        margin-bottom: 0px !important;
+        border-bottom: none;
+    }
+`;

@@ -20,14 +20,12 @@ import {
     StreakContainer,
     LoadingContainer,
 } from "../_shared/styled";
-import { TaskTextContainer, TaskTimeContainer } from "./styled";
+import { TaskTextContainer, TaskTimeContainer, ThoughtText } from "./styled";
 import firebase from "../../utils/firebase";
 import { dayActions, dayOperations } from "../../state/day";
 import { cuserOperations } from "../../state/cuser";
 import Lottie from "react-lottie";
-import BlueLoading from "../../utils/lotties/blue-loading.json";
 import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
-
 var moment = require("moment");
 
 export const Day = () => {
@@ -279,13 +277,12 @@ export const Day = () => {
                             {filteredThoughts &&
                                 filteredThoughts.length > 0 &&
                                 filteredThoughts.map((thought: any) => (
-                                    <ContentText
+                                    <ThoughtText
                                         key={thought.id}
-                                        style={{ whiteSpace: "pre-line", marginBottom: "30px" }}
                                         onClick={() => updateThought(thought.id, thought.content, thought.datetime)}
                                     >
                                         {thought.content}
-                                    </ContentText>
+                                    </ThoughtText>
                                 ))}
                         </Card>
                     )}
