@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Header } from "../_shared/Header";
-import { AppContainer, Content } from "../_shared/styled";
+import { AppContainer, Content, LoadingContainer } from "../_shared/styled";
 import { EventForm } from "./EventForm";
 import { RadioGroup, RadioButton } from "./styled";
 import { TaskForm } from "./TaskForm";
@@ -10,8 +10,12 @@ import { ThoughtForm } from "./ThoughtForm";
 import { dayActions, dayOperations } from "../../state/day";
 import { useDispatchPromise, useSelectFromRedux } from "../../utils/hooks";
 import { Popup } from "../../utils/ui-library";
+import Lottie from "react-lottie";
+import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
+import { defaultOptions } from "../../utils";
 
 export const AddDayItem = () => {
+    const requireAuth = useRequireAuth();
     const dispatch = useDispatch();
     const dispatchPromise = useDispatchPromise();
     const history = useHistory();
@@ -100,53 +104,61 @@ export const AddDayItem = () => {
         }
     };
 
-    return (
-        <AppContainer>
-            {!addEventId && !addTaskId && !addThoughtId ? (
-                <Header
-                    title=""
-                    leftSideIcon="left-arrow-grey"
-                    leftSideIconAction={backIconAction}
-                    rightSideRightIcon="check-grey"
-                    rightSideRightIconAction={checkIconAction}
-                />
-            ) : (
-                <Header
-                    title=""
-                    leftSideIcon="left-arrow-grey"
-                    leftSideIconAction={backIconAction}
-                    rightSideLeftIcon="check-grey"
-                    rightSideLeftIconAction={checkIconAction}
-                    rightSideRightIcon="delete-grey"
-                    rightSideRightIconAction={() => updateIsModalVisible(true)}
-                />
-            )}
-            <Content style={{ padding: "0 40px" }}>
-                {!addEventId && !addTaskId && !addThoughtId && (
-                    <RadioGroup
-                        value={addDayItemSetting}
-                        onChange={(e) => dispatch(dayActions.updateAddDayItemSetting(e.target.value))}
-                    >
-                        <RadioButton value="event">EVENT</RadioButton>
-                        <RadioButton value="to-do">TO-DO</RadioButton>
-                        <RadioButton value="thought">THOUGHT</RadioButton>
-                    </RadioGroup>
+    if (!requireAuth.user) {
+        return (
+            <LoadingContainer>
+                <Lottie options={defaultOptions} height={400} width={400} />
+            </LoadingContainer>
+        );
+    } else {
+        return (
+            <AppContainer>
+                {!addEventId && !addTaskId && !addThoughtId ? (
+                    <Header
+                        title=""
+                        leftSideIcon="left-arrow-grey"
+                        leftSideIconAction={backIconAction}
+                        rightSideRightIcon="check-grey"
+                        rightSideRightIconAction={checkIconAction}
+                    />
+                ) : (
+                    <Header
+                        title=""
+                        leftSideIcon="left-arrow-grey"
+                        leftSideIconAction={backIconAction}
+                        rightSideLeftIcon="check-grey"
+                        rightSideLeftIconAction={checkIconAction}
+                        rightSideRightIcon="delete-grey"
+                        rightSideRightIconAction={() => updateIsModalVisible(true)}
+                    />
                 )}
-                {addDayItemSetting === "event" && <EventForm />}
-                {addDayItemSetting === "to-do" && <TaskForm />}
-                {addDayItemSetting === "thought" && <ThoughtForm />}
-            </Content>
-            <Popup
-                visible={isModalVisible}
-                okText="Delete"
-                closable={false}
-                centered={true}
-                width={230}
-                onOk={deleteDayItem}
-                onCancel={() => updateIsModalVisible(false)}
-            >
-                Delete this {addDayItemSetting}?
-            </Popup>
-        </AppContainer>
-    );
+                <Content style={{ padding: "0 40px" }}>
+                    {!addEventId && !addTaskId && !addThoughtId && (
+                        <RadioGroup
+                            value={addDayItemSetting}
+                            onChange={(e) => dispatch(dayActions.updateAddDayItemSetting(e.target.value))}
+                        >
+                            <RadioButton value="event">EVENT</RadioButton>
+                            <RadioButton value="to-do">TO-DO</RadioButton>
+                            <RadioButton value="thought">THOUGHT</RadioButton>
+                        </RadioGroup>
+                    )}
+                    {addDayItemSetting === "event" && <EventForm />}
+                    {addDayItemSetting === "to-do" && <TaskForm />}
+                    {addDayItemSetting === "thought" && <ThoughtForm />}
+                </Content>
+                <Popup
+                    visible={isModalVisible}
+                    okText="Delete"
+                    closable={false}
+                    centered={true}
+                    width={230}
+                    onOk={deleteDayItem}
+                    onCancel={() => updateIsModalVisible(false)}
+                >
+                    Delete this {addDayItemSetting}?
+                </Popup>
+            </AppContainer>
+        );
+    }
 };

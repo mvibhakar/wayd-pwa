@@ -95,3 +95,11 @@ export const HabitListItemText = styled(ListItemText)`
     justify-content: space-between;
     align-items: flex-start;
 `;
+
+export const LoadingContainer = styled.div`
+    height: ${window.innerHeight};
+    width: ${window.innerWidth};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;

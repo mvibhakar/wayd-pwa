@@ -1,8 +1,16 @@
 import React, { useEffect } from "react";
+import { defaultOptions, S3Key } from "../../utils";
+
+// hooks
 import { useHistory } from "react-router-dom";
-import { S3Key } from "../../utils";
 import { useSelectFromRedux } from "../../utils/hooks";
 import { useDispatch } from "react-redux";
+import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
+
+// redux
+import { cuserOperations } from "../../state/cuser";
+import { dayOperations } from "../../state/day";
+import { notDayActions } from "../../state/not-day";
 
 // components
 import { FormSection } from "../add/styled";
@@ -15,14 +23,14 @@ import {
     ListItemIcon,
     HabitListItemText,
     StreakContainer,
+    LoadingContainer,
 } from "../_shared/styled";
-import { cuserOperations } from "../../state/cuser";
-import { dayOperations } from "../../state/day";
-import { notDayActions } from "../../state/not-day";
+import Lottie from "react-lottie";
 var moment = require("moment");
 
 export const Habits = () => {
     const history = useHistory();
+    const requireAuth = useRequireAuth();
     const dispatch = useDispatch();
     const { habits_array } = useSelectFromRedux((state) => state.cuser.userProfile);
     const { habits } = useSelectFromRedux((state) => state.cuser);
@@ -51,48 +59,60 @@ export const Habits = () => {
         history.push("/add-habit");
     };
 
-    return (
-        <AppContainer>
-            <Header title="my habits" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
-            <Content style={{ padding: "0px 40px 40px" }}>
-                {filteredHabits &&
-                    filteredHabits.length > 0 &&
-                    filteredHabits.map((habit: any) => (
-                        <FormSection key={habit.id}>
-                            <ContentItemContainer>
-                                <ListItemIcon
-                                    src={
-                                        habit.checked
-                                            ? S3Key + "round-checked-orange.png"
-                                            : S3Key + "round-unchecked-grey.png"
-                                    }
-                                    alt={habit.checked ? "checked" : "unchecked"}
-                                    onClick={() => dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked))}
-                                />
-                                <HabitListItemText
-                                    onClick={() => updateHabit(habit.content, habit.streak, habit.checked, habit.id)}
-                                >
-                                    <div>{habit.content}</div>
-                                    <StreakContainer streak={habit.streak > 0 ? true : false}>
-                                        <div>{habit.streak}</div>
-                                        <img
-                                            src={
-                                                habit.streak > 0
-                                                    ? S3Key + "streak-orange.png"
-                                                    : S3Key + "streak-grey.png"
-                                            }
-                                            alt={habit.streak > 0 ? "streak" : "no-streak"}
-                                            width="20px"
-                                        />
-                                    </StreakContainer>
-                                </HabitListItemText>
-                            </ContentItemContainer>
-                        </FormSection>
-                    ))}
-            </Content>
-            <FAB>
-                <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
-            </FAB>
-        </AppContainer>
-    );
+    if (!requireAuth.user) {
+        return (
+            <LoadingContainer>
+                <Lottie options={defaultOptions} height={400} width={400} />
+            </LoadingContainer>
+        );
+    } else {
+        return (
+            <AppContainer>
+                <Header title="my habits" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
+                <Content style={{ padding: "0px 40px 40px" }}>
+                    {filteredHabits &&
+                        filteredHabits.length > 0 &&
+                        filteredHabits.map((habit: any) => (
+                            <FormSection key={habit.id}>
+                                <ContentItemContainer>
+                                    <ListItemIcon
+                                        src={
+                                            habit.checked
+                                                ? S3Key + "round-checked-orange.png"
+                                                : S3Key + "round-unchecked-grey.png"
+                                        }
+                                        alt={habit.checked ? "checked" : "unchecked"}
+                                        onClick={() =>
+                                            dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked))
+                                        }
+                                    />
+                                    <HabitListItemText
+                                        onClick={() =>
+                                            updateHabit(habit.content, habit.streak, habit.checked, habit.id)
+                                        }
+                                    >
+                                        <div>{habit.content}</div>
+                                        <StreakContainer streak={habit.streak > 0 ? true : false}>
+                                            <div>{habit.streak}</div>
+                                            <img
+                                                src={
+                                                    habit.streak > 0
+                                                        ? S3Key + "streak-orange.png"
+                                                        : S3Key + "streak-grey.png"
+                                                }
+                                                alt={habit.streak > 0 ? "streak" : "no-streak"}
+                                                width="20px"
+                                            />
+                                        </StreakContainer>
+                                    </HabitListItemText>
+                                </ContentItemContainer>
+                            </FormSection>
+                        ))}
+                </Content>
+                <FAB>
+                    <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
+                </FAB>
+            </AppContainer>
+        );
+    }
 };

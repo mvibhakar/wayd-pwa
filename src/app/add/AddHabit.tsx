@@ -6,10 +6,15 @@ import { useDispatch } from "react-redux";
 // components
 import { Popup, TextInputWithBottomBorder } from "../../utils/ui-library";
 import { Header } from "../_shared/Header";
-import { AppContainer, Content } from "../_shared/styled";
+import { AppContainer, Content, LoadingContainer } from "../_shared/styled";
 import { FormSection } from "./styled";
+import Lottie from "react-lottie";
+import BlueLoading from "../../utils/lotties/blue-loading.json";
+import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
+import { defaultOptions } from "../../utils";
 
 export const AddHabit = () => {
+    const requireAuth = useRequireAuth();
     const dispatch = useDispatch();
     const dispatchPromise = useDispatchPromise();
     const history = useHistory();
@@ -43,48 +48,56 @@ export const AddHabit = () => {
         });
     };
 
-    return (
-        <AppContainer>
-            {addHabitContent ? (
-                <Header
-                    title=""
-                    leftSideIcon="left-arrow-grey"
-                    leftSideIconAction={backIconAction}
-                    rightSideLeftIcon="check-grey"
-                    rightSideLeftIconAction={submit}
-                    rightSideRightIcon="delete-grey"
-                    rightSideRightIconAction={() => updateIsModalVisible(true)}
-                />
-            ) : (
-                <Header
-                    title=""
-                    leftSideIcon="left-arrow-grey"
-                    leftSideIconAction={backIconAction}
-                    rightSideRightIcon="check-grey"
-                    rightSideRightIconAction={submit}
-                />
-            )}
-            <Content style={{ padding: "0 40px 40px" }}>
-                <FormSection>
-                    <TextInputWithBottomBorder
-                        placeholder="Enter new habit"
-                        bordered={false}
-                        value={habitContent}
-                        onChange={(e) => updateHabitContent(e.target.value)}
+    if (!requireAuth.user) {
+        return (
+            <LoadingContainer>
+                <Lottie options={defaultOptions} height={400} width={400} />
+            </LoadingContainer>
+        );
+    } else {
+        return (
+            <AppContainer>
+                {addHabitContent ? (
+                    <Header
+                        title=""
+                        leftSideIcon="left-arrow-grey"
+                        leftSideIconAction={backIconAction}
+                        rightSideLeftIcon="check-grey"
+                        rightSideLeftIconAction={submit}
+                        rightSideRightIcon="delete-grey"
+                        rightSideRightIconAction={() => updateIsModalVisible(true)}
                     />
-                </FormSection>
-            </Content>
-            <Popup
-                visible={isModalVisible}
-                okText="Delete"
-                closable={false}
-                centered={true}
-                width={230}
-                onOk={deleteHabit}
-                onCancel={() => updateIsModalVisible(false)}
-            >
-                Delete this habit?
-            </Popup>
-        </AppContainer>
-    );
+                ) : (
+                    <Header
+                        title=""
+                        leftSideIcon="left-arrow-grey"
+                        leftSideIconAction={backIconAction}
+                        rightSideRightIcon="check-grey"
+                        rightSideRightIconAction={submit}
+                    />
+                )}
+                <Content style={{ padding: "0 40px 40px" }}>
+                    <FormSection>
+                        <TextInputWithBottomBorder
+                            placeholder="Enter new habit"
+                            bordered={false}
+                            value={habitContent}
+                            onChange={(e) => updateHabitContent(e.target.value)}
+                        />
+                    </FormSection>
+                </Content>
+                <Popup
+                    visible={isModalVisible}
+                    okText="Delete"
+                    closable={false}
+                    centered={true}
+                    width={230}
+                    onOk={deleteHabit}
+                    onCancel={() => updateIsModalVisible(false)}
+                >
+                    Delete this habit?
+                </Popup>
+            </AppContainer>
+        );
+    }
 };

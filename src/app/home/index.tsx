@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "react-calendar/dist/Calendar.css";
-import { S3Key } from "../../utils";
+import { defaultOptions, S3Key } from "../../utils";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -8,11 +8,13 @@ import { useDispatch } from "react-redux";
 import { Header } from "../_shared/Header";
 import { MenuButton } from "./MenuButton";
 import { Calendar } from "./styled";
-import { FAB, Content, AppContainer } from "../_shared/styled";
+import { FAB, Content, AppContainer, LoadingContainer } from "../_shared/styled";
 import firebase from "../../utils/firebase";
 import { useSelectFromRedux } from "../../utils/hooks";
 import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
 import { cuserOperations } from "../../state/cuser";
+import Lottie from "react-lottie";
+import BlueLoading from "../../utils/lotties/blue-loading.json";
 var moment = require("moment");
 
 export default () => {
@@ -40,37 +42,12 @@ export default () => {
         }
     };
 
-    // useEffect(() => {
-    // db.collection("events")
-    //     .where("uid", "==", cuserId)
-    //     .get()
-    //     .then((querySnapshot) => {
-    //         // console.log(querySnapshot.docs.map((d) => d.data()));
-    //         let events = Array.from(
-    //             new Set(
-    //                 querySnapshot.docs.map((d: any) => ({
-    //                     id: d.id,
-    //                     ...d.data(),
-    //                 }))
-    //             )
-    //         );
-    //         console.log(events);
-    //         // querySnapshot.forEach((doc) => {
-    //         //     // doc.data() is never undefined for query doc snapshots
-    //         //     console.log(doc.id, doc.data());
-    //         // });
-    //     })
-    //     .catch((error) => {
-    //         console.log("Error getting documents: ", error);
-    //     });
-    // }, []);
-
-    // useEffect(() => {
-    //     dispatch(cuserOperations.createTodaysHabits());
-    // }, []);
-
     if (!requireAuth.user) {
-        return <div style={{ height: "500px", width: "500px", background: "purple" }} />;
+        return (
+            <LoadingContainer>
+                <Lottie options={defaultOptions} height={400} width={400} />
+            </LoadingContainer>
+        );
     } else {
         return (
             <AppContainer>

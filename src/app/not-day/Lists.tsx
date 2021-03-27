@@ -1,9 +1,10 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { S3Key } from "../../utils";
+import { S3Key, defaultOptions } from "../../utils";
 import { useSelectFromRedux } from "../../utils/hooks";
 import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
 import { useDispatch } from "react-redux";
+import Lottie from "react-lottie";
 
 // components
 import { Header } from "../_shared/Header";
@@ -16,6 +17,7 @@ import {
     ContentItemContainer,
     ListItemIcon,
     ListItemText,
+    LoadingContainer,
 } from "../_shared/styled";
 import { notDayOperations } from "../../state/not-day";
 
@@ -34,7 +36,11 @@ export const Lists = () => {
     };
 
     if (!cuserId) {
-        return <div style={{ height: "500px", width: "500px", background: "purple" }} />;
+        return (
+            <LoadingContainer>
+                <Lottie options={defaultOptions} height={400} width={400} />
+            </LoadingContainer>
+        );
     } else {
         return (
             <AppContainer>
