@@ -144,6 +144,48 @@ export const createTask: PromiseOperation<void> = () => async (dispatch, getStat
         });
 };
 
+export const updateTask: PromiseOperation<void> = () => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+
+    const { addTaskId, addDayItemContent, addDayItemDate } = state.day;
+
+    const dateTimeString = moment(addDayItemDate)?.toString();
+    const formattedDateTime = new firebase.firestore.Timestamp(Math.floor(Date.parse(dateTimeString) / 1000), 0);
+
+    const taskUpdateObject = {
+        content: addDayItemContent,
+        datetime: formattedDateTime,
+    };
+
+    db.collection("tasks")
+        .doc(addTaskId)
+        .update(taskUpdateObject)
+        .then(() => {
+            dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
+export const deleteTask: PromiseOperation<void> = () => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+
+    const { addTaskId } = state.day;
+
+    db.collection("tasks")
+        .doc(addTaskId)
+        .delete()
+        .then(() => {
+            dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
 export const createThought: PromiseOperation<void> = () => async (dispatch, getState) => {
     const state = getState();
     const db = firebase.firestore();

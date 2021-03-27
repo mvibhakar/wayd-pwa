@@ -121,6 +121,14 @@ export const Day = () => {
         history.push("/add-day-item");
     };
 
+    const updateTask = (taskId: string, taskContent: string, taskDateTime: firebase.firestore.Timestamp) => {
+        dispatch(dayActions.updateAddDayItemSetting("to-do"));
+        dispatch(dayActions.updateAddTaskId(taskId));
+        dispatch(dayActions.updateAddDayItemContent(taskContent));
+        dispatch(dayActions.updateAddDayItemDate(moment(taskDateTime.toDate())));
+        history.push("/add-day-item");
+    };
+
     return (
         <AppContainer>
             <Header
@@ -189,7 +197,9 @@ export const Day = () => {
                                         alt={task.checked ? "checked" : "unchecked"}
                                         onClick={() => dispatch(dayOperations.updateTaskChecked(task.id, task.checked))}
                                     />
-                                    <ListItemText>{task.content}</ListItemText>
+                                    <ListItemText onClick={() => updateTask(task.id, task.content, task.datetime)}>
+                                        {task.content}
+                                    </ListItemText>
                                 </ContentItemContainer>
                             ))}
                     </Card>

@@ -27,9 +27,17 @@ export const AddDayItem = () => {
 
     const checkIconAction = () => {
         if (addEventId || addTaskId || addThoughtId) {
-            if (addEventId) {
+            if (addDayItemSetting === "event" && addEventId) {
                 dispatchPromise(dayOperations.updateEvent()).then(() => {
-                    dispatch(dayActions.resetAddDayItem());
+                    if (dateForNav) {
+                        history.push("/day/" + dateForNav);
+                    } else {
+                        history.goBack();
+                    }
+                });
+            }
+            if (addDayItemSetting === "to-do" && addTaskId) {
+                dispatchPromise(dayOperations.updateTask()).then(() => {
                     if (dateForNav) {
                         history.push("/day/" + dateForNav);
                     } else {
@@ -69,6 +77,10 @@ export const AddDayItem = () => {
     const deleteDayItem = () => {
         if (addDayItemSetting === "event") {
             dispatchPromise(dayOperations.deleteEvent()).then(() => {
+                history.goBack();
+            });
+        } else if (addDayItemSetting === "to-do") {
+            dispatchPromise(dayOperations.deleteTask()).then(() => {
                 history.goBack();
             });
         }
