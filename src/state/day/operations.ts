@@ -213,6 +213,48 @@ export const createThought: PromiseOperation<void> = () => async (dispatch, getS
         });
 };
 
+export const updateThought: PromiseOperation<void> = () => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+
+    const { addThoughtId, addDayItemContent, addDayItemDate } = state.day;
+
+    const dateTimeString = moment(addDayItemDate)?.toString();
+    const formattedDateTime = new firebase.firestore.Timestamp(Math.floor(Date.parse(dateTimeString) / 1000), 0);
+
+    const thoughtUpdateObject = {
+        content: addDayItemContent,
+        datetime: formattedDateTime,
+    };
+
+    db.collection("thoughts")
+        .doc(addThoughtId)
+        .update(thoughtUpdateObject)
+        .then(() => {
+            dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
+export const deleteThought: PromiseOperation<void> = () => async (dispatch, getState) => {
+    const state = getState();
+    const db = firebase.firestore();
+
+    const { addThoughtId } = state.day;
+
+    db.collection("thoughts")
+        .doc(addThoughtId)
+        .delete()
+        .then(() => {
+            dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
 export const updateTaskChecked: PromiseOperation<void> = (docId: string, previouslyChecked: boolean) => async () => {
     const db = firebase.firestore();
 

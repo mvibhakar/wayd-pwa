@@ -23,6 +23,7 @@ export const AddDayItem = () => {
 
     const backIconAction = () => {
         history.goBack();
+        dispatch(dayActions.resetAddDayItem());
     };
 
     const checkIconAction = () => {
@@ -38,6 +39,15 @@ export const AddDayItem = () => {
             }
             if (addDayItemSetting === "to-do" && addTaskId) {
                 dispatchPromise(dayOperations.updateTask()).then(() => {
+                    if (dateForNav) {
+                        history.push("/day/" + dateForNav);
+                    } else {
+                        history.goBack();
+                    }
+                });
+            }
+            if (addDayItemSetting === "thought" && addThoughtId) {
+                dispatchPromise(dayOperations.updateThought()).then(() => {
                     if (dateForNav) {
                         history.push("/day/" + dateForNav);
                     } else {
@@ -81,6 +91,10 @@ export const AddDayItem = () => {
             });
         } else if (addDayItemSetting === "to-do") {
             dispatchPromise(dayOperations.deleteTask()).then(() => {
+                history.goBack();
+            });
+        } else if (addDayItemSetting === "thought") {
+            dispatchPromise(dayOperations.deleteThought()).then(() => {
                 history.goBack();
             });
         }

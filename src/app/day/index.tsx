@@ -129,6 +129,18 @@ export const Day = () => {
         history.push("/add-day-item");
     };
 
+    const updateThought = (
+        thoughtId: string,
+        thoughtContent: string,
+        thoughtDateTime: firebase.firestore.Timestamp
+    ) => {
+        dispatch(dayActions.updateAddDayItemSetting("thought"));
+        dispatch(dayActions.updateAddThoughtId(thoughtId));
+        dispatch(dayActions.updateAddDayItemContent(thoughtContent));
+        dispatch(dayActions.updateAddDayItemDate(moment(thoughtDateTime.toDate())));
+        history.push("/add-day-item");
+    };
+
     return (
         <AppContainer>
             <Header
@@ -248,7 +260,11 @@ export const Day = () => {
                         {filteredThoughts &&
                             filteredThoughts.length > 0 &&
                             filteredThoughts.map((thought: any) => (
-                                <ContentText key={thought.id} style={{ whiteSpace: "pre-line" }}>
+                                <ContentText
+                                    key={thought.id}
+                                    style={{ whiteSpace: "pre-line", marginBottom: "30px" }}
+                                    onClick={() => updateThought(thought.id, thought.content, thought.datetime)}
+                                >
                                     {thought.content}
                                 </ContentText>
                             ))}
