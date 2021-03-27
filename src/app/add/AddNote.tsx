@@ -5,7 +5,7 @@ import { notDayActions, notDayOperations } from "../../state/not-day";
 import { useDispatchPromise, useSelectFromRedux } from "../../utils/hooks";
 
 // components
-import { ExpandingTextAreaWithBottomBorder, TextInputWithBottomBorder } from "../../utils/ui-library";
+import { ExpandingTextAreaWithBottomBorder, Popup, TextInputWithBottomBorder } from "../../utils/ui-library";
 import { Header } from "../_shared/Header";
 import { AppContainer, Content } from "../_shared/styled";
 import { FormSection } from "./styled";
@@ -17,17 +17,14 @@ export const AddNote = () => {
     const { addNoteId, addNoteTitle, addNoteContent } = useSelectFromRedux((state) => state.notDay);
     const [noteTitle, updateNoteTitle] = useState<string>(addNoteTitle);
     const [noteContent, updateNoteContent] = useState<string>(addNoteContent);
+    const [isModalVisible, updateIsModalVisible] = useState<boolean>(false);
+
+    console.log(addNoteId);
 
     const backIconAction = () => {
         history.goBack();
-        dispatch(notDayActions.updateAddNoteId(""));
+        dispatch(notDayActions.resetAddNote());
     };
-
-    if (addNoteId) {
-        console.log(true);
-    } else {
-        console.log(false);
-    }
 
     const submit = () => {
         if (addNoteId) {
@@ -39,19 +36,37 @@ export const AddNote = () => {
                 history.push("/notes");
             });
         }
+        dispatch(notDayActions.resetAddNote());
+    };
 
-        dispatch(notDayActions.updateAddNoteId(""));
+    const deleteNote = () => {
+        dispatchPromise(notDayOperations.deleteNote(addNoteId)).then(() => {
+            history.push("/notes");
+            dispatch(notDayActions.resetAddNote());
+        });
     };
 
     return (
         <AppContainer>
-            <Header
-                title=""
-                leftSideIcon="left-arrow-grey"
-                leftSideIconAction={backIconAction}
-                rightSideRightIcon="check-grey"
-                rightSideRightIconAction={submit}
-            />
+            {addNoteId ? (
+                <Header
+                    title=""
+                    leftSideIcon="left-arrow-grey"
+                    leftSideIconAction={backIconAction}
+                    rightSideLeftIcon="check-grey"
+                    rightSideLeftIconAction={submit}
+                    rightSideRightIcon="delete-grey"
+                    rightSideRightIconAction={() => updateIsModalVisible(true)}
+                />
+            ) : (
+                <Header
+                    title=""
+                    leftSideIcon="left-arrow-grey"
+                    leftSideIconAction={backIconAction}
+                    rightSideRightIcon="check-grey"
+                    rightSideRightIconAction={submit}
+                />
+            )}
             <Content style={{ padding: "0 40px 40px" }}>
                 <FormSection>
                     <TextInputWithBottomBorder
@@ -71,6 +86,17 @@ export const AddNote = () => {
                     />
                 </FormSection>
             </Content>
+            <Popup
+                visible={isModalVisible}
+                okText="Delete"
+                closable={false}
+                centered={true}
+                width={230}
+                onOk={deleteNote}
+                onCancel={() => updateIsModalVisible(false)}
+            >
+                Delete this note?
+            </Popup>
         </AppContainer>
     );
 };

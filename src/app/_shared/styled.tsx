@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { darkOrange, lightOrange, textGrey } from "../../utils";
 import { ContentHeader, ContentText } from "../../utils/ui-library";
+import Modal from "antd/lib/modal";
 
 export const AppContainer = styled.div`
     width: ${window.innerWidth};

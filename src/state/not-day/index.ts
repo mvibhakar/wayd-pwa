@@ -7,6 +7,7 @@ const actionMap = {
     updateAddNoteId: payloadAction<string>(),
     updateAddNoteTitle: payloadAction<string>(),
     updateAddNoteContent: payloadAction<string>(),
+    resetAddNote: simpleAction(),
 };
 
 export const notDayActions = actionFactory(actionMap, "NOT_DAY");
@@ -37,6 +38,11 @@ const notDayReducer = (state = getInitialState(), action: NotDayAction) =>
                     break;
                 case "updateAddNoteContent":
                     draftState.addNoteContent = action.payload;
+                    break;
+                case "resetAddNote":
+                    draftState.addNoteId = getInitialState().addNoteId;
+                    draftState.addNoteTitle = getInitialState().addNoteTitle;
+                    draftState.addNoteContent = getInitialState().addNoteContent;
                     break;
                 default:
                     break;

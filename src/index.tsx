@@ -10,13 +10,13 @@ import store from "./state/store";
 import { FirebaseAuthProvider } from "./app/_shared/FirebaseAuthProvider";
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <FirebaseAuthProvider>
-                <App />
-            </FirebaseAuthProvider>
-        </Provider>
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <Provider store={store}>
+        <FirebaseAuthProvider>
+            <App />
+        </FirebaseAuthProvider>
+    </Provider>,
+    // </React.StrictMode>
     document.getElementById("root")
 );
 

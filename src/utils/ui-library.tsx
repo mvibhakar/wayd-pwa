@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Input } from "antd";
+import { Input, Modal } from "antd";
 import { textGrey, darkBlue, lightBlue } from "./index";
 const { TextArea } = Input;
 
@@ -101,4 +101,42 @@ export const AuthButton = styled.button`
     border: none;
     outline: none;
     cursor: pointer;
+`;
+
+export const Popup = styled(Modal)`
+    font-family: "DM Sans", sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: ${textGrey};
+
+    .ant-modal-content {
+        border-radius: 6px;
+    }
+
+    .ant-modal-body {
+        display: flex;
+        justify-content: center;
+    }
+
+    .ant-modal-footer {
+        display: flex;
+        justify-content: space-around;
+        border-top: none;
+    }
+
+    .ant-btn {
+        font-family: "DM Sans", sans-serif;
+        letter-spacing: 1px;
+        border-radius: 18px;
+        box-shadow: none;
+    }
+
+    .ant-modal-footer button + button {
+        margin-left: 0px;
+    }
+
+    .ant-btn-primary {
+        background: ${darkBlue};
+        border-color: ${darkBlue};
+    }
 `;

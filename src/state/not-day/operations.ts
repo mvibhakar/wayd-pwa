@@ -93,6 +93,20 @@ export const updateNote: PromiseOperation<void> = (docId, noteTitle, noteContent
         });
 };
 
+export const deleteNote: PromiseOperation<void> = (docId) => async () => {
+    const db = firebase.firestore();
+
+    db.collection("notes")
+        .doc(docId)
+        .delete()
+        .then(() => {
+            // dispatch(dayActions.resetAddDayItem());
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+};
+
 export const createHabit: PromiseOperation<void> = (habitContent) => async (dispatch, getState) => {
     const state = getState();
     const db = firebase.firestore();
