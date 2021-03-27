@@ -92,7 +92,7 @@ export const AuthButton = styled.button`
     font-weight: bold;
     letter-spacing: 2px;
     font-size: 16px;
-    margin: 35px 0;
+    margin: 35px 0 10px;
     width: 250px;
     height: 40px;
     color: white;

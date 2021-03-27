@@ -45,7 +45,22 @@ export const Notes = () => {
             <AppContainer>
                 <Header title="my notes" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
                 <Content>
+                    {notes && notes.length === 0 && (
+                        <Card style={{ background: "transparent", filter: "none" }}>
+                            <ContentText
+                                style={{
+                                    textTransform: "none",
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                Click the orange button to add a note!
+                            </ContentText>
+                        </Card>
+                    )}
                     {notes &&
+                        notes.length > 0 &&
                         notes.map((note: any) => (
                             <Card key={note.id} onClick={() => updateNote(note.id, note.title, note.content)}>
                                 <CardHeader style={{ marginBottom: "10px" }}>{note.title}</CardHeader>

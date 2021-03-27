@@ -20,6 +20,7 @@ import {
     LoadingContainer,
 } from "../_shared/styled";
 import { notDayOperations } from "../../state/not-day";
+import { ContentText } from "../../utils/ui-library";
 
 export const Lists = () => {
     const requireAuth = useRequireAuth();
@@ -46,7 +47,22 @@ export const Lists = () => {
             <AppContainer>
                 <Header title="my lists" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
                 <Content>
+                    {lists && lists.length === 0 && (
+                        <Card style={{ background: "transparent", filter: "none" }}>
+                            <ContentText
+                                style={{
+                                    textTransform: "none",
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                Click the orange button to add a list!
+                            </ContentText>
+                        </Card>
+                    )}
                     {lists &&
+                        lists.length > 0 &&
                         lists.map((list: any) => (
                             <Card key={list.id}>
                                 <CardHeader>{list.title}</CardHeader>

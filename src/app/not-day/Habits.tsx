@@ -24,8 +24,10 @@ import {
     HabitListItemText,
     StreakContainer,
     LoadingContainer,
+    Card,
 } from "../_shared/styled";
 import Lottie from "react-lottie";
+import { ContentText } from "../../utils/ui-library";
 var moment = require("moment");
 
 export const Habits = () => {
@@ -70,6 +72,20 @@ export const Habits = () => {
             <AppContainer>
                 <Header title="my habits" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
                 <Content style={{ padding: "0px 40px 40px" }}>
+                    {filteredHabits && filteredHabits.length === 0 && (
+                        <Card style={{ background: "transparent", filter: "none" }}>
+                            <ContentText
+                                style={{
+                                    textTransform: "none",
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                Click the orange button to add a habit!
+                            </ContentText>
+                        </Card>
+                    )}
                     {filteredHabits &&
                         filteredHabits.length > 0 &&
                         filteredHabits.map((habit: any) => (
