@@ -97,8 +97,8 @@ export const HabitListItemText = styled(ListItemText)`
 `;
 
 export const LoadingContainer = styled.div`
-    height: ${window.innerHeight};
-    width: ${window.innerWidth};
+    height: 100vh;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
