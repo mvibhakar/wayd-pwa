@@ -163,7 +163,7 @@ export const Day = () => {
         );
     } else {
         return (
-            <AppContainer {...handlers} className="noselect">
+            <AppContainer className="noselect">
                 <Header
                     title={getHeaderString()}
                     leftSideIcon="home-grey"
@@ -175,10 +175,7 @@ export const Day = () => {
                 />
                 <Content {...handlers}>
                     {noData && (
-                        <Card
-                            {...handlers}
-                            style={{ background: "transparent", filter: "none", height: "calc(100vh - 100px)" }}
-                        >
+                        <Card style={{ background: "transparent", filter: "none" }}>
                             <ContentText
                                 style={{
                                     textTransform: "none",

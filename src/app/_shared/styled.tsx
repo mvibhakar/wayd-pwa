@@ -12,8 +12,7 @@ export const AppContainer = styled.div`
 `;
 
 export const Content = styled.div`
-    min-height: calc(${window.innerHeight} - 56px);
-    height: calc(${window.innerHeight} - 56px);
+    height: calc(100vh - 56px);
     width: 100%;
     padding: 0 20px 20px;
     margin-top: 56px;
