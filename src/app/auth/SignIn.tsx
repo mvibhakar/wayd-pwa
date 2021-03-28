@@ -116,7 +116,8 @@ export default () => {
                 </AuthInputContainer>
                 <AuthButton onClick={submit}>{isLogin ? "LOG IN" : "SIGN UP"}</AuthButton>
                 <ContentText onClick={() => updateIsLogin(!isLogin)} style={{ cursor: "pointer" }}>
-                    {isLogin ? "Sign up" : "Log in"}?
+                    {isLogin ? "Don't have an account? " : "Already have an account? "}
+                    <u>{isLogin ? "Sign up" : "Log in"}</u>.
                 </ContentText>
             </div>
         );

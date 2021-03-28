@@ -12,9 +12,8 @@ import { FAB, Content, AppContainer, LoadingContainer } from "../_shared/styled"
 import firebase from "../../utils/firebase";
 import { useSelectFromRedux } from "../../utils/hooks";
 import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
-import { cuserOperations } from "../../state/cuser";
 import Lottie from "react-lottie";
-import BlueLoading from "../../utils/lotties/blue-loading.json";
+import { dayActions } from "../../state/day";
 var moment = require("moment");
 
 export default () => {
@@ -22,6 +21,7 @@ export default () => {
     const requireAuth = useRequireAuth();
     const db = firebase.firestore();
     const history = useHistory();
+    const remainder = 30 - (moment().minute() % 30);
     const { cuserId, habits } = useSelectFromRedux((state) => state.cuser);
 
     const onDayClick = (value: Date) => {
@@ -32,6 +32,8 @@ export default () => {
 
     const getFABAction = () => {
         history.push("/add-day-item");
+        dispatch(dayActions.updateAddEventStartTime(moment().add(remainder, "minutes")));
+        dispatch(dayActions.updateAddEventEndTime(moment().add(remainder + 60, "minutes")));
     };
 
     const getArrowImage = (side: string) => {

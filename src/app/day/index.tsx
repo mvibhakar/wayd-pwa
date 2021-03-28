@@ -36,6 +36,7 @@ export const Day = () => {
     const rawDate = path.slice(-10);
     const formattedDate = moment(new Date(rawDate));
     const current = moment();
+    const remainder = 30 - (moment().minute() % 30);
     const { events, tasks, habits, thoughts } = useSelectFromRedux((state) => state.cuser);
     const { habits_array } = useSelectFromRedux((state) => state.cuser.userProfile);
     const filteredEvents =
@@ -72,12 +73,15 @@ export const Day = () => {
         } else if (moment(formattedDate).isSame(tomorrow, "day")) {
             return "tomorrow";
         } else {
-            return formattedDate.format("MMMM Do");
+            return formattedDate.format("MMM Do");
         }
     };
 
     const getFABAction = () => {
         history.push("/add-day-item");
+        dispatch(dayActions.updateAddDayItemDate(formattedDate));
+        dispatch(dayActions.updateAddEventStartTime(moment().add(remainder, "minutes")));
+        dispatch(dayActions.updateAddEventEndTime(moment().add(remainder + 60, "minutes")));
     };
 
     const goToPreviousDay = () => {

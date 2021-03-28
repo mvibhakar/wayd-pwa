@@ -11,8 +11,8 @@ export const TaskTextContainer = styled(ContentText)`
 
 export const ThoughtText = styled(ContentText)`
     white-space: pre-line;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
     border-bottom: 0.5px solid rgba(82, 82, 82, 0.4);
 
     &:last-child {
