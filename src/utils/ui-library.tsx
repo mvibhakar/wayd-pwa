@@ -78,12 +78,15 @@ export const TextInputWithBottomBorder = styled(TextInput)`
 export const PasswordInput = styled(Input.Password)`
     font-family: "DM Sans", sans-serif;
     font-size: 15px;
-    letter-spacing: 1px;
     width: 230px;
     color: ${textGrey};
+
+    .ant-input-borderless {
+        letter-spacing: 3px !important;
+    }
+
     ::placeholder {
         color: ${textGrey} !important;
-        letter-spacing: 1px;
     }
 `;
 

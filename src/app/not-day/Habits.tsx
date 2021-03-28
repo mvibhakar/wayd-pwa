@@ -69,7 +69,7 @@ export const Habits = () => {
         );
     } else {
         return (
-            <AppContainer>
+            <AppContainer className="noselect">
                 <Header title="my habits" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
                 <Content style={{ padding: "0px 40px 40px" }}>
                     {filteredHabits && filteredHabits.length === 0 && (

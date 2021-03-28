@@ -4,14 +4,15 @@ import { ContentHeader, ContentText } from "../../utils/ui-library";
 import Modal from "antd/lib/modal";
 
 export const AppContainer = styled.div`
-    width: ${window.innerWidth};
-    height: ${window.innerHeight};
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
 `;
 
 export const Content = styled.div`
+    min-height: calc(${window.innerHeight} - 56px);
     height: calc(${window.innerHeight} - 56px);
     width: 100%;
     padding: 0 20px 20px;

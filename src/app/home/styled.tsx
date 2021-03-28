@@ -20,8 +20,8 @@ export const Calendar = styled(ReactCalendar)`
 
     .react-calendar__tile.react-calendar__tile--now.react-calendar__month-view__days__day {
         border-radius: 50%;
-        background: ${lightBlue};
-        color: white;
+        background: ${lightBlue} !important;
+        color: white !important;
         font-weight: bold;
         flex-basis: 36px !important;
 
@@ -63,8 +63,8 @@ export const Calendar = styled(ReactCalendar)`
     }
 
     .react-calendar__tile.react-calendar__tile--active.react-calendar__month-view__days__day {
-        background: ${lightBlue};
-        color: white;
+        background: transparent;
+        color: ${textGrey};
     }
 
     .react-calendar__month-view__days__day--neighboringMonth {

@@ -44,7 +44,7 @@ export const Lists = () => {
         );
     } else {
         return (
-            <AppContainer>
+            <AppContainer className="noselect">
                 <Header title="my lists" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
                 <Content>
                     {lists && lists.length === 0 && (

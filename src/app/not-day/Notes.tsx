@@ -42,7 +42,7 @@ export const Notes = () => {
         );
     } else {
         return (
-            <AppContainer>
+            <AppContainer className="noselect">
                 <Header title="my notes" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
                 <Content>
                     {notes && notes.length === 0 && (

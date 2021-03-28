@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { defaultOptions, S3Key } from "../../utils";
 import { useSelectFromRedux } from "../../utils/hooks";
 import { useDispatch } from "react-redux";
+import { useSwipeable } from "react-swipeable";
 
 // components
 import { ContentText } from "../../utils/ui-library";
@@ -56,6 +57,11 @@ export const Day = () => {
         filteredHabits.length === 0 &&
         filteredThoughts &&
         filteredThoughts.length === 0;
+    const handlers = useSwipeable({
+        onSwipedLeft: () => goToNextDay(),
+        onSwipedRight: () => goToPreviousDay(),
+        trackMouse: true,
+    });
 
     useEffect(() => {
         dispatch(cuserOperations.createTodaysHabits());
@@ -78,6 +84,7 @@ export const Day = () => {
     };
 
     const getFABAction = () => {
+        dispatch(dayActions.resetAddDayItem());
         history.push("/add-day-item");
         dispatch(dayActions.updateAddDayItemDate(formattedDate));
         dispatch(dayActions.updateAddEventStartTime(moment().add(remainder, "minutes")));
@@ -156,7 +163,7 @@ export const Day = () => {
         );
     } else {
         return (
-            <AppContainer>
+            <AppContainer {...handlers} className="noselect">
                 <Header
                     title={getHeaderString()}
                     leftSideIcon="home-grey"
@@ -166,9 +173,12 @@ export const Day = () => {
                     rightSideRightIcon="right-arrow-grey"
                     rightSideRightIconAction={goToNextDay}
                 />
-                <Content>
+                <Content {...handlers}>
                     {noData && (
-                        <Card style={{ background: "transparent", filter: "none" }}>
+                        <Card
+                            {...handlers}
+                            style={{ background: "transparent", filter: "none", height: "calc(100vh - 100px)" }}
+                        >
                             <ContentText
                                 style={{
                                     textTransform: "none",

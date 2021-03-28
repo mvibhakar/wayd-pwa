@@ -27,7 +27,6 @@ export const AddDayItem = () => {
 
     const backIconAction = () => {
         history.goBack();
-        dispatch(dayActions.resetAddDayItem());
     };
 
     const checkIconAction = () => {
