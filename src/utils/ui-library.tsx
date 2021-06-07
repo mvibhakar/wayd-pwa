@@ -92,18 +92,28 @@ export const PasswordInput = styled(Input.Password)`
 
 export const AuthButton = styled.button`
     font-family: "DM Sans", sans-serif;
-    font-weight: bold;
-    letter-spacing: 2px;
-    font-size: 16px;
+    letter-spacing: 1px;
+    font-size: 15px;
     margin: 35px 0 10px;
-    width: 250px;
+    width: 270px;
     height: 40px;
-    color: white;
-    background: ${lightBlue};
+    color: ${textGrey};
+    background: white;
     border-radius: 8px;
     border: none;
     outline: none;
     cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(199, 199, 199, 0.25);
+    display: flex;
+    align-items: center;
+`;
+
+export const ColorfulAuthButton = styled(AuthButton)`
+    margin: 25px 0 10px;
+    color: white;
+    background: ${darkBlue};
+    justify-content: center;
+    box-shadow: none;
 `;
 
 export const Popup = styled(Modal)`

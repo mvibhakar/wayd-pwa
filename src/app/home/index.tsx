@@ -23,13 +23,15 @@ export default () => {
     const db = firebase.firestore();
     const history = useHistory();
     const remainder = 30 - (moment().minute() % 30);
-    const { cuserId, habits } = useSelectFromRedux((state) => state.cuser);
+    const { cuser } = useSelectFromRedux((state) => state);
     const [calendarValue, updateCalendarValue] = useState<moment.Moment>(moment());
     const handlers = useSwipeable({
         onSwipedLeft: () => updateCalendarValue(calendarValue.clone().add(1, "months")),
         onSwipedRight: () => updateCalendarValue(calendarValue.clone().subtract(1, "months")),
         trackMouse: true,
     });
+
+    console.log(requireAuth);
 
     const onDayClick = (value: Date) => {
         // const momentDate = moment(value).format("MM-DD-YYYY");
