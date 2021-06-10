@@ -55,9 +55,6 @@ const HeaderContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    position: fixed;
-    top: 0px;
-    left: 0px;
     z-index: 5;
 `;
 

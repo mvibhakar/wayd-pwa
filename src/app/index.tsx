@@ -12,22 +12,105 @@ import { AddList } from "./add/AddList";
 import { AddNote } from "./add/AddNote";
 import { Habits } from "./not-day/Habits";
 import { AddHabit } from "./add/AddHabit";
+import { Sidebar } from "./_shared/Sidebar";
 
 function App() {
     return (
         <Router>
             <div>
                 <Switch>
-                    <Route path="/sign-in" exact component={() => <SignIn />} />
-                    <Route path="/" exact component={() => <Home />} />
-                    <Route path="/day" component={() => <Day />} />
-                    <Route path="/lists" component={() => <Lists />} />
-                    <Route path="/notes" component={() => <Notes />} />
-                    <Route path="/habits" component={() => <Habits />} />
-                    <Route path="/add-day-item" component={() => <AddDayItem />} />
-                    <Route path="/add-list" component={() => <AddList />} />
-                    <Route path="/add-note" component={() => <AddNote />} />
-                    <Route path="/add-habit" component={() => <AddHabit />} />
+                    <Route
+                        path="/sign-in"
+                        exact
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <SignIn />
+                            </>
+                        )}
+                    />
+                    <Route
+                        path="/"
+                        exact
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <Home />
+                            </>
+                        )}
+                    />
+                    <Route
+                        path="/day"
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <Day />
+                            </>
+                        )}
+                    />
+                    <Route
+                        path="/lists"
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <Lists />
+                            </>
+                        )}
+                    />
+                    <Route
+                        path="/notes"
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <Notes />
+                            </>
+                        )}
+                    />
+                    <Route
+                        path="/habits"
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <Habits />
+                            </>
+                        )}
+                    />
+                    <Route
+                        path="/add-day-item"
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <AddDayItem />
+                            </>
+                        )}
+                    />
+                    <Route
+                        path="/add-list"
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <AddList />
+                            </>
+                        )}
+                    />
+                    <Route
+                        path="/add-note"
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <AddNote />
+                            </>
+                        )}
+                    />
+                    <Route
+                        path="/add-habit"
+                        component={() => (
+                            <>
+                                <Sidebar />
+                                <AddHabit />
+                            </>
+                        )}
+                    />
                 </Switch>
             </div>
         </Router>

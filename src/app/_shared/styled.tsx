@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { darkOrange, lightOrange, textGrey } from "../../utils";
+import { breakpoint, darkOrange, lightOrange, textGrey } from "../../utils";
 import { ContentHeader, ContentText } from "../../utils/ui-library";
 import Modal from "antd/lib/modal";
+import { Drawer as AntdDrawer } from "antd";
 
 export const AppContainer = styled.div`
     width: 100vw;
@@ -9,13 +10,43 @@ export const AppContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media (min-width: ${breakpoint}) {
+        position: fixed;
+        top: 0;
+        left: 400px;
+        width: calc(100vw - 400px);
+    }
+`;
+
+export const ContentContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width: ${breakpoint}) {
+        width: 800px;
+    }
 `;
 
 export const Content = styled.div`
     height: calc(100vh - 56px);
     width: 100%;
     padding: 0 20px 20px;
-    margin-top: 56px;
+
+    @media (min-width: ${breakpoint}) {
+    }
+`;
+
+export const CardContainer = styled.div`
+    @media (min-width: ${breakpoint}) {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row wrap;
+        margin-top: 0px;
+    }
 `;
 
 export const FAB = styled.div`
@@ -40,6 +71,12 @@ export const Card = styled.div`
     filter: drop-shadow(0px 2px 4px rgba(209, 209, 209, 0.5));
     border-radius: 8px;
     margin-bottom: 20px;
+    box-sizing: border-box;
+
+    @media (min-width: ${breakpoint}) {
+        width: 360px;
+        margin: 10px;
+    }
 `;
 
 export const CardHeader = styled(ContentHeader)`
@@ -102,4 +139,40 @@ export const LoadingContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+`;
+
+export const Drawer = styled(AntdDrawer)`
+    display: none;
+
+    .ant-drawer-body {
+        padding-top: 0;
+    }
+
+    @media (min-width: ${breakpoint}) {
+        display: block;
+    }
+`;
+
+export const DrawerHeader = styled.div`
+    height: 56px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+`;
+
+export const WaydLogo = styled.img`
+    margin-left: -10px;
+    width: 34px;
+    height: 34px;
+`;
+
+export const FlexContainer = styled.div`
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 13px 0 15px;
+`;
+
+export const LinkSection = styled.div`
+    padding-top: 20px;
 `;

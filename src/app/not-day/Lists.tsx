@@ -18,6 +18,7 @@ import {
     ListItemIcon,
     ListItemText,
     LoadingContainer,
+    ContentContainer,
 } from "../_shared/styled";
 import { notDayOperations } from "../../state/not-day";
 import { ContentText } from "../../utils/ui-library";
@@ -45,54 +46,56 @@ export const Lists = () => {
     } else {
         return (
             <AppContainer className="noselect">
-                <Header title="my lists" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
-                <Content>
-                    {lists && lists.length === 0 && (
-                        <Card style={{ background: "transparent", filter: "none" }}>
-                            <ContentText
-                                style={{
-                                    textTransform: "none",
-                                    width: "100%",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                Click the orange button to add a list!
-                            </ContentText>
-                        </Card>
-                    )}
-                    {lists &&
-                        lists.length > 0 &&
-                        lists.map((list: any) => (
-                            <Card key={list.id}>
-                                <CardHeader>{list.title}</CardHeader>
-                                {listItems &&
-                                    listItems
-                                        .filter((listItem: any) => listItem.list_id === list.id)
-                                        .map((listItem: any) => (
-                                            <ContentItemContainer key={listItem.id}>
-                                                <ListItemIcon
-                                                    src={
-                                                        listItem.checked
-                                                            ? S3Key + "rect-checked-blue.png"
-                                                            : S3Key + "rect-unchecked-grey.png"
-                                                    }
-                                                    alt={listItem.checked ? "checked" : "unchecked"}
-                                                    onClick={() =>
-                                                        dispatch(
-                                                            notDayOperations.updateListItemChecked(
-                                                                listItem.id,
-                                                                listItem.checked
-                                                            )
-                                                        )
-                                                    }
-                                                />
-                                                <ListItemText>{listItem.content}</ListItemText>
-                                            </ContentItemContainer>
-                                        ))}
+                <ContentContainer>
+                    <Header title="my lists" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
+                    <Content>
+                        {lists && lists.length === 0 && (
+                            <Card style={{ background: "transparent", filter: "none" }}>
+                                <ContentText
+                                    style={{
+                                        textTransform: "none",
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    Click the orange button to add a list!
+                                </ContentText>
                             </Card>
-                        ))}
-                </Content>
+                        )}
+                        {lists &&
+                            lists.length > 0 &&
+                            lists.map((list: any) => (
+                                <Card key={list.id}>
+                                    <CardHeader>{list.title}</CardHeader>
+                                    {listItems &&
+                                        listItems
+                                            .filter((listItem: any) => listItem.list_id === list.id)
+                                            .map((listItem: any) => (
+                                                <ContentItemContainer key={listItem.id}>
+                                                    <ListItemIcon
+                                                        src={
+                                                            listItem.checked
+                                                                ? S3Key + "rect-checked-blue.png"
+                                                                : S3Key + "rect-unchecked-grey.png"
+                                                        }
+                                                        alt={listItem.checked ? "checked" : "unchecked"}
+                                                        onClick={() =>
+                                                            dispatch(
+                                                                notDayOperations.updateListItemChecked(
+                                                                    listItem.id,
+                                                                    listItem.checked
+                                                                )
+                                                            )
+                                                        }
+                                                    />
+                                                    <ListItemText>{listItem.content}</ListItemText>
+                                                </ContentItemContainer>
+                                            ))}
+                                </Card>
+                            ))}
+                    </Content>
+                </ContentContainer>
                 <FAB>
                     <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
                 </FAB>

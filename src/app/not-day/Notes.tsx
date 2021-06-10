@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 // components
 import { ContentText } from "../../utils/ui-library";
 import { Header } from "../_shared/Header";
-import { AppContainer, Content, FAB, Card, CardHeader, LoadingContainer } from "../_shared/styled";
+import { AppContainer, Content, FAB, Card, CardHeader, LoadingContainer, ContentContainer } from "../_shared/styled";
 import { notDayActions } from "../../state/not-day";
 import Lottie from "react-lottie";
 import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
@@ -43,31 +43,33 @@ export const Notes = () => {
     } else {
         return (
             <AppContainer className="noselect">
-                <Header title="my notes" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
-                <Content>
-                    {notes && notes.length === 0 && (
-                        <Card style={{ background: "transparent", filter: "none" }}>
-                            <ContentText
-                                style={{
-                                    textTransform: "none",
-                                    width: "100%",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                Click the orange button to add a note!
-                            </ContentText>
-                        </Card>
-                    )}
-                    {notes &&
-                        notes.length > 0 &&
-                        notes.map((note: any) => (
-                            <Card key={note.id} onClick={() => updateNote(note.id, note.title, note.content)}>
-                                <CardHeader style={{ marginBottom: "10px" }}>{note.title}</CardHeader>
-                                <ContentText style={{ whiteSpace: "pre-line" }}>{note.content}</ContentText>
+                <ContentContainer>
+                    <Header title="my notes" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
+                    <Content>
+                        {notes && notes.length === 0 && (
+                            <Card style={{ background: "transparent", filter: "none" }}>
+                                <ContentText
+                                    style={{
+                                        textTransform: "none",
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    Click the orange button to add a note!
+                                </ContentText>
                             </Card>
-                        ))}
-                </Content>
+                        )}
+                        {notes &&
+                            notes.length > 0 &&
+                            notes.map((note: any) => (
+                                <Card key={note.id} onClick={() => updateNote(note.id, note.title, note.content)}>
+                                    <CardHeader style={{ marginBottom: "10px" }}>{note.title}</CardHeader>
+                                    <ContentText style={{ whiteSpace: "pre-line" }}>{note.content}</ContentText>
+                                </Card>
+                            ))}
+                    </Content>
+                </ContentContainer>
                 <FAB>
                     <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
                 </FAB>

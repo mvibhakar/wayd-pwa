@@ -25,6 +25,7 @@ import {
     StreakContainer,
     LoadingContainer,
     Card,
+    ContentContainer,
 } from "../_shared/styled";
 import Lottie from "react-lottie";
 import { ContentText } from "../../utils/ui-library";
@@ -70,61 +71,63 @@ export const Habits = () => {
     } else {
         return (
             <AppContainer className="noselect">
-                <Header title="my habits" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
-                <Content style={{ padding: "0px 40px 40px" }}>
-                    {filteredHabits && filteredHabits.length === 0 && (
-                        <Card style={{ background: "transparent", filter: "none" }}>
-                            <ContentText
-                                style={{
-                                    textTransform: "none",
-                                    width: "100%",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                Click the orange button to add a habit!
-                            </ContentText>
-                        </Card>
-                    )}
-                    {filteredHabits &&
-                        filteredHabits.length > 0 &&
-                        filteredHabits.map((habit: any) => (
-                            <FormSection key={habit.id}>
-                                <ContentItemContainer>
-                                    <ListItemIcon
-                                        src={
-                                            habit.checked
-                                                ? S3Key + "round-checked-orange.png"
-                                                : S3Key + "round-unchecked-grey.png"
-                                        }
-                                        alt={habit.checked ? "checked" : "unchecked"}
-                                        onClick={() =>
-                                            dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked))
-                                        }
-                                    />
-                                    <HabitListItemText
-                                        onClick={() =>
-                                            updateHabit(habit.content, habit.streak, habit.checked, habit.id)
-                                        }
-                                    >
-                                        <div>{habit.content}</div>
-                                        <StreakContainer streak={habit.streak > 0 ? true : false}>
-                                            <div>{habit.streak}</div>
-                                            <img
-                                                src={
-                                                    habit.streak > 0
-                                                        ? S3Key + "streak-orange.png"
-                                                        : S3Key + "streak-grey.png"
-                                                }
-                                                alt={habit.streak > 0 ? "streak" : "no-streak"}
-                                                width="20px"
-                                            />
-                                        </StreakContainer>
-                                    </HabitListItemText>
-                                </ContentItemContainer>
-                            </FormSection>
-                        ))}
-                </Content>
+                <ContentContainer>
+                    <Header title="my habits" leftSideIcon="home-grey" leftSideIconAction={homeIconAction} />
+                    <Content style={{ padding: "0px 40px 40px" }}>
+                        {filteredHabits && filteredHabits.length === 0 && (
+                            <Card style={{ background: "transparent", filter: "none" }}>
+                                <ContentText
+                                    style={{
+                                        textTransform: "none",
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    Click the orange button to add a habit!
+                                </ContentText>
+                            </Card>
+                        )}
+                        {filteredHabits &&
+                            filteredHabits.length > 0 &&
+                            filteredHabits.map((habit: any) => (
+                                <FormSection key={habit.id}>
+                                    <ContentItemContainer>
+                                        <ListItemIcon
+                                            src={
+                                                habit.checked
+                                                    ? S3Key + "round-checked-orange.png"
+                                                    : S3Key + "round-unchecked-grey.png"
+                                            }
+                                            alt={habit.checked ? "checked" : "unchecked"}
+                                            onClick={() =>
+                                                dispatch(dayOperations.updateHabitChecked(habit.id, habit.checked))
+                                            }
+                                        />
+                                        <HabitListItemText
+                                            onClick={() =>
+                                                updateHabit(habit.content, habit.streak, habit.checked, habit.id)
+                                            }
+                                        >
+                                            <div>{habit.content}</div>
+                                            <StreakContainer streak={habit.streak > 0 ? true : false}>
+                                                <div>{habit.streak}</div>
+                                                <img
+                                                    src={
+                                                        habit.streak > 0
+                                                            ? S3Key + "streak-orange.png"
+                                                            : S3Key + "streak-grey.png"
+                                                    }
+                                                    alt={habit.streak > 0 ? "streak" : "no-streak"}
+                                                    width="20px"
+                                                />
+                                            </StreakContainer>
+                                        </HabitListItemText>
+                                    </ContentItemContainer>
+                                </FormSection>
+                            ))}
+                    </Content>
+                </ContentContainer>
                 <FAB>
                     <img src={S3Key + "plus-white.png"} alt="plus" width="36px" onClick={getFABAction} />
                 </FAB>

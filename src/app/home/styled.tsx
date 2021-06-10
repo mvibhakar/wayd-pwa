@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import ReactCalendar from "react-calendar";
-import { darkBlue, lightBeige, lightBlue, textGrey } from "../../utils";
+import { darkBlue, lightBeige, lightBlue, textGrey, darkOrange, breakpoint } from "../../utils";
 
 export const Calendar = styled(ReactCalendar)`
-    background: #f5f5f5;
+    background: transparent;
     font-family: "DM Sans";
     border: none;
     height: 300px;
@@ -31,11 +31,25 @@ export const Calendar = styled(ReactCalendar)`
     }
 
     .react-calendar__navigation button[disabled] {
-        background: ${lightBeige};
+        background: transparent;
     }
 
     .react-calendar__tile.react-calendar__month-view__days__day:hover {
-        background: ${lightBeige};
+        background: transparent;
+
+        @media (min-width: ${breakpoint}) {
+            background: ${darkBlue};
+            color: white;
+            border-radius: 5px;
+        }
+    }
+
+    .react-calendar__tile.react-calendar__tile--active.react-calendar__month-view__days__day.react-calendar__month-view__days__day--weekend {
+        @media (min-width: ${breakpoint}) {
+            background: ${darkBlue};
+            color: white;
+            border-radius: 5px;
+        }
     }
 
     .react-calendar__tile {
@@ -59,12 +73,13 @@ export const Calendar = styled(ReactCalendar)`
         font-size: 16px;
         font-weight: bold;
         letter-spacing: 0.5px;
-        background: ${lightBeige};
+        background: transparent;
     }
 
     .react-calendar__tile.react-calendar__tile--active.react-calendar__month-view__days__day {
-        background: transparent;
-        color: ${textGrey};
+        background: ${darkOrange}
+        color: white;
+        border-radius: 5px;
     }
 
     .react-calendar__month-view__days__day--neighboringMonth {
@@ -74,6 +89,6 @@ export const Calendar = styled(ReactCalendar)`
 
     .react-calendar__navigation button:enabled:hover,
     .react-calendar__navigation button:enabled:focus {
-        background: ${lightBeige};
+        background: transparent;
     }
 `;
