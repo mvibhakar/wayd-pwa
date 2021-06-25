@@ -19,16 +19,7 @@ function App() {
         <Router>
             <div>
                 <Switch>
-                    <Route
-                        path="/sign-in"
-                        exact
-                        component={() => (
-                            <>
-                                <Sidebar />
-                                <SignIn />
-                            </>
-                        )}
-                    />
+                    <Route path="/sign-in" exact component={() => <SignIn />} />
                     <Route
                         path="/"
                         exact

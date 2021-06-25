@@ -36,7 +36,13 @@ import { useRequireAuth } from "../_shared/FirebaseAuthProvider";
 import { Calendar } from "../home/styled";
 import { SidebarIconLink } from "../_shared/SidebarIconLink";
 import { Sidebar } from "../_shared/Sidebar";
+import Masonry from "react-masonry-css";
 var moment = require("moment");
+
+const breakpointColumnsObj = {
+    default: 2,
+    800: 1,
+};
 
 export const Day = () => {
     const history = useHistory();
@@ -186,7 +192,11 @@ export const Day = () => {
                             rightSideRightIconAction={goToNextDay}
                         />
                         <Content {...handlers}>
-                            <CardContainer>
+                            <Masonry
+                                breakpointCols={breakpointColumnsObj}
+                                className="my-masonry-grid"
+                                columnClassName="my-masonry-grid_column"
+                            >
                                 {noData && (
                                     <Card style={{ background: "transparent", filter: "none" }}>
                                         <ContentText
@@ -321,7 +331,7 @@ export const Day = () => {
                                             ))}
                                     </Card>
                                 )}
-                            </CardContainer>
+                            </Masonry>
                         </Content>
                     </ContentContainer>
                     <FAB>

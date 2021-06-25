@@ -23,12 +23,12 @@ export const SidebarIconLink = ({ icon, text, path }: SidebarIconLinkProps) => {
 };
 
 const SidebarIconLinkImage = styled.img`
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     margin: 0 15px;
 `;
 
 const SidebarIconLinkText = styled(ContentText)`
-    font-size: 15px;
+    font-size: 14px;
     margin-top: 2px;
 `;

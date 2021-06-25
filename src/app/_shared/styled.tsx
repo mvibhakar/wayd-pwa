@@ -44,8 +44,15 @@ export const CardContainer = styled.div`
     @media (min-width: ${breakpoint}) {
         display: flex;
         flex-wrap: wrap;
-        flex-direction: row wrap;
+        flex-direction: column wrap;
         margin-top: 0px;
+
+        ::after {
+            content: "";
+            flex-basis: 100%;
+            width: 0;
+            order: 0;
+        }
     }
 `;
 
