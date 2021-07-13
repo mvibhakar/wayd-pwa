@@ -6,6 +6,7 @@ import { Drawer, DrawerHeader, LinkSection, WaydLogo } from "./styled";
 import { Calendar } from "../home/styled";
 import { SidebarIconLink } from "./SidebarIconLink";
 import { useHistory } from "react-router-dom";
+import { Moment } from "moment";
 var moment = require("moment");
 
 export const Sidebar = () => {

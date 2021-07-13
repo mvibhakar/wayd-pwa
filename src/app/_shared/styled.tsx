@@ -102,15 +102,15 @@ export const ContentItemContainer = styled.div`
 `;
 
 export const ListItemText = styled(ContentText)`
-    padding: 2px 0;
+    padding: 0 0 2px;
     width: 100%;
-    border-bottom: 0.5px solid rgba(82, 82, 82, 0.4);
+    border-bottom: 0.5px solid transparent;
 `;
 
 export const ListItemIcon = styled.img`
-    width: 22px;
-    height: 22px;
-    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 `;
 
 export const SpaceBetweenFlexContainer = styled.div`

@@ -170,7 +170,6 @@ export const Day = () => {
         dispatch(dayActions.updateAddDayItemDate(moment(thoughtDateTime.toDate())));
         history.push("/add-day-item");
     };
-
     if (!requireAuth.user) {
         return (
             <LoadingContainer>
@@ -306,7 +305,7 @@ export const Day = () => {
                                                                         : S3Key + "streak-grey.png"
                                                                 }
                                                                 alt={habit.streak > 0 ? "streak" : "no-streak"}
-                                                                width="20px"
+                                                                width="18px"
                                                             />
                                                         </StreakContainer>
                                                     </HabitListItemText>
@@ -314,23 +313,20 @@ export const Day = () => {
                                             ))}
                                     </Card>
                                 )}
-                                {filteredThoughts && filteredThoughts.length > 0 && (
-                                    <Card style={{ marginBottom: "0px" }}>
-                                        <CardHeader style={{ marginBottom: "10px" }}>thoughts</CardHeader>
-                                        {filteredThoughts &&
-                                            filteredThoughts.length > 0 &&
-                                            filteredThoughts.map((thought: any) => (
-                                                <ThoughtText
-                                                    key={thought.id}
-                                                    onClick={() =>
-                                                        updateThought(thought.id, thought.content, thought.datetime)
-                                                    }
-                                                >
-                                                    {thought.content}
-                                                </ThoughtText>
-                                            ))}
-                                    </Card>
-                                )}
+                                {filteredThoughts &&
+                                    filteredThoughts.length > 0 &&
+                                    filteredThoughts.map((thought: any) => (
+                                        <Card style={{ marginBottom: "0px" }} key={thought.id}>
+                                            <CardHeader>thought</CardHeader>
+                                            <ThoughtText
+                                                onClick={() =>
+                                                    updateThought(thought.id, thought.content, thought.datetime)
+                                                }
+                                            >
+                                                {thought.content}
+                                            </ThoughtText>
+                                        </Card>
+                                    ))}
                             </Masonry>
                         </Content>
                     </ContentContainer>

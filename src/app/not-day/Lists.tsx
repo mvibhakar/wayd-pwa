@@ -22,6 +22,12 @@ import {
 } from "../_shared/styled";
 import { notDayOperations } from "../../state/not-day";
 import { ContentText } from "../../utils/ui-library";
+import Masonry from "react-masonry-css";
+
+const breakpointColumnsObj = {
+    default: 2,
+    800: 1,
+};
 
 export const Lists = () => {
     const requireAuth = useRequireAuth();
@@ -63,37 +69,43 @@ export const Lists = () => {
                                 </ContentText>
                             </Card>
                         )}
-                        {lists &&
-                            lists.length > 0 &&
-                            lists.map((list: any) => (
-                                <Card key={list.id}>
-                                    <CardHeader>{list.title}</CardHeader>
-                                    {listItems &&
-                                        listItems
-                                            .filter((listItem: any) => listItem.list_id === list.id)
-                                            .map((listItem: any) => (
-                                                <ContentItemContainer key={listItem.id}>
-                                                    <ListItemIcon
-                                                        src={
-                                                            listItem.checked
-                                                                ? S3Key + "rect-checked-blue.png"
-                                                                : S3Key + "rect-unchecked-grey.png"
-                                                        }
-                                                        alt={listItem.checked ? "checked" : "unchecked"}
-                                                        onClick={() =>
-                                                            dispatch(
-                                                                notDayOperations.updateListItemChecked(
-                                                                    listItem.id,
-                                                                    listItem.checked
+                        <Masonry
+                            breakpointCols={breakpointColumnsObj}
+                            className="my-masonry-grid"
+                            columnClassName="my-masonry-grid_column"
+                        >
+                            {lists &&
+                                lists.length > 0 &&
+                                lists.map((list: any) => (
+                                    <Card key={list.id}>
+                                        <CardHeader>{list.title}</CardHeader>
+                                        {listItems &&
+                                            listItems
+                                                .filter((listItem: any) => listItem.list_id === list.id)
+                                                .map((listItem: any) => (
+                                                    <ContentItemContainer key={listItem.id}>
+                                                        <ListItemIcon
+                                                            src={
+                                                                listItem.checked
+                                                                    ? S3Key + "rect-checked-blue.png"
+                                                                    : S3Key + "rect-unchecked-grey.png"
+                                                            }
+                                                            alt={listItem.checked ? "checked" : "unchecked"}
+                                                            onClick={() =>
+                                                                dispatch(
+                                                                    notDayOperations.updateListItemChecked(
+                                                                        listItem.id,
+                                                                        listItem.checked
+                                                                    )
                                                                 )
-                                                            )
-                                                        }
-                                                    />
-                                                    <ListItemText>{listItem.content}</ListItemText>
-                                                </ContentItemContainer>
-                                            ))}
-                                </Card>
-                            ))}
+                                                            }
+                                                        />
+                                                        <ListItemText>{listItem.content}</ListItemText>
+                                                    </ContentItemContainer>
+                                                ))}
+                                    </Card>
+                                ))}
+                        </Masonry>
                     </Content>
                 </ContentContainer>
                 <FAB>
